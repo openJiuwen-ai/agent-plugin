@@ -17,6 +17,7 @@ JiuwenSwarm（聚问蜂群）**官方 plugin 插件包集合仓**：对应 Hub �
 <!-- catalog:begin -->
 | 插件 | 版本 | 分类 | 能力组成 | 简介 |
 | --- | --- | --- | --- | --- |
+| [agent-health-check](./plugins/agent-health-check) | 1.0.0 | Engineering | 1 skill + 1 tool | 只读体检本机三方 Agent CLI 的安装、版本、登录与连通性，输出健康报告与修复建议。 |
 | [example-plugin](./plugins/example-plugin) | 1.0.0 | Engineering | 1 skill + 1 tool + 1 rail | 官方参考插件：用 skill 指导、tool 执行、rail 监听三类组件演示插件包的标准写法。 |
 <!-- catalog:end -->
 
