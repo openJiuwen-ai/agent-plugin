@@ -1,0 +1,69 @@
+{
+  "version": "0.1.0",
+  "package_type": "plugin",
+  "id": "page-acceptance",
+  "name": "页面验收助手",
+  "description": "在独立浏览器会话中按明确步骤验收本地页面，记录断言结果、错误与截图，失败不会报告为通过。",
+  "display_name": {
+    "zh": "页面验收助手",
+    "en": "Page Acceptance"
+  },
+  "display_description": {
+    "zh": "在独立浏览器会话中按明确步骤验收本地页面，记录断言结果、错误与截图，失败不会报告为通过。",
+    "en": "Check a local page with explicit browser steps, assertions and screenshot evidence in an isolated session."
+  },
+  "category": "Engineering",
+  "source": "local",
+  "default_init_input": {
+    "zh": "验收本地搜索页面，输入关键词并检查结果",
+    "en": "Check local search input and result rendering"
+  },
+  "quick_inputs": [
+    {
+      "zh": "验收本地搜索页面，输入关键词并检查结果",
+      "en": "Check local search input and result rendering"
+    },
+    {
+      "zh": "检查分页按钮是否展示下一页内容并截图",
+      "en": "Check pagination with screenshots"
+    },
+    {
+      "zh": "按指定步骤检查表单错误提示",
+      "en": "Verify form validation messages using explicit steps"
+    }
+  ],
+  "tags": [
+    {
+      "zh": "研发",
+      "en": "Development"
+    },
+    {
+      "zh": "证据",
+      "en": "Evidence"
+    },
+    {
+      "zh": "工作流",
+      "en": "Workflow"
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/page-acceptance",
+      "mode": "auto_list"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/page_acceptance_tool.py",
+      "class": "PageAcceptanceTool",
+      "display_name": {
+        "zh": "页面验收助手",
+        "en": "Page Acceptance"
+      },
+      "display_description": {
+        "zh": "在独立浏览器会话中按明确步骤验收本地页面，记录断言结果、错误与截图，失败不会报告为通过。",
+        "en": "Check a local page with explicit browser steps, assertions and screenshot evidence in an isolated session."
+      }
+    }
+  ]
+}

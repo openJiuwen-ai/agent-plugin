@@ -1,0 +1,69 @@
+{
+  "version": "0.1.0",
+  "package_type": "plugin",
+  "id": "pr-comment-assistant",
+  "name": "PR 意见处理助手",
+  "description": "读取 AtomGit 检视意见并关联代码位置，整理待办后按选定意见修改，生成带验证证据的回复草稿。",
+  "display_name": {
+    "zh": "PR 意见处理助手",
+    "en": "PR Comment Assistant"
+  },
+  "display_description": {
+    "zh": "读取 AtomGit 检视意见并关联代码位置，整理待办后按选定意见修改，生成带验证证据的回复草稿。",
+    "en": "Read AtomGit review comments, organize actionable items and guide selected fixes with reply drafts."
+  },
+  "category": "Engineering",
+  "source": "local",
+  "default_init_input": {
+    "zh": "整理这个 AtomGit PR 中还没处理的检视意见",
+    "en": "List outstanding comments on this AtomGit PR"
+  },
+  "quick_inputs": [
+    {
+      "zh": "整理这个 AtomGit PR 中还没处理的检视意见",
+      "en": "List outstanding comments on this AtomGit PR"
+    },
+    {
+      "zh": "根据选定的评论修改代码并生成回复草稿",
+      "en": "Address selected review comments and draft replies"
+    },
+    {
+      "zh": "整理导出的 PR 评论，区分已解决和待核对意见",
+      "en": "Organize exported PR comments by resolution status"
+    }
+  ],
+  "tags": [
+    {
+      "zh": "研发",
+      "en": "Development"
+    },
+    {
+      "zh": "证据",
+      "en": "Evidence"
+    },
+    {
+      "zh": "工作流",
+      "en": "Workflow"
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/pr-comment-assistant",
+      "mode": "auto_list"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/pr_comments_tool.py",
+      "class": "PrCommentsTool",
+      "display_name": {
+        "zh": "PR 意见处理助手",
+        "en": "PR Comment Assistant"
+      },
+      "display_description": {
+        "zh": "读取 AtomGit 检视意见并关联代码位置，整理待办后按选定意见修改，生成带验证证据的回复草稿。",
+        "en": "Read AtomGit review comments, organize actionable items and guide selected fixes with reply drafts."
+      }
+    }
+  ]
+}

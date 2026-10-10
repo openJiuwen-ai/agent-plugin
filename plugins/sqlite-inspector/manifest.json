@@ -1,0 +1,70 @@
+{
+  "version": "0.1.0",
+  "package_type": "plugin",
+  "id": "sqlite-inspector",
+  "name": "SQLite 检查助手",
+  "description": "只读检查本地 SQLite 数据库文件：列出表、查看列与索引、执行带参数的限量 SELECT 并附执行计划，四重防护确保绝不写入。",
+  "display_name": {
+    "en": "SQLite Inspector",
+    "zh": "SQLite 检查助手"
+  },
+  "display_description": {
+    "en": "Read-only inspection of local SQLite files: tables, columns, indexes, bounded parameterized queries with query plans; writes are always rejected.",
+    "zh": "只读查看本地 SQLite 库：表清单、列与索引结构、受限查询与执行计划，拒绝一切写入。"
+  },
+  "category": "Engineering",
+  "source": "local",
+  "avatar": "",
+  "default_init_input": {
+    "zh": "检查这个 SQLite 数据库有哪些表，并查看 users 表的结构和前几行数据。",
+    "en": "Inspect this SQLite database: list its tables, then show the users table schema and first rows."
+  },
+  "tags": [
+    {
+      "en": "Database",
+      "zh": "数据库"
+    },
+    {
+      "en": "ReadOnly",
+      "zh": "只读"
+    },
+    {
+      "en": "Inspection",
+      "zh": "检查"
+    }
+  ],
+  "quick_inputs": [
+    {
+      "zh": "检查这个 SQLite 数据库有哪些表，并查看 users 表的结构和前几行数据。",
+      "en": "Inspect this SQLite database: list its tables, then show the users table schema and first rows."
+    },
+    {
+      "zh": "对 orders 表跑一个只读 SELECT，带上参数并给出执行计划。",
+      "en": "Run a read-only parameterized SELECT on the orders table with its query plan."
+    },
+    {
+      "zh": "这个库的慢查询该怎么加索引？先看看表结构和现有索引。",
+      "en": "Which indexes should I add for a slow query? Show the table schema and existing indexes first."
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/sqlite-inspection",
+      "mode": "all"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/sqlite_inspector_tool.py",
+      "class": "SqliteInspectorTool",
+      "display_name": {
+        "en": "SQLite Inspector Tool",
+        "zh": "SQLite 检查工具"
+      },
+      "display_description": {
+        "en": "Read-only SQLite inspection: list tables, describe columns/indexes, run bounded parameterized SELECTs with EXPLAIN QUERY PLAN; never writes.",
+        "zh": "只读检查 SQLite：列出表、查看列与索引、执行带参数的限量查询并附执行计划，绝不写入。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "version": "0.1.0",
+  "package_type": "plugin",
+  "id": "http-api-probe",
+  "name": "HTTP 接口探测助手",
+  "description": "探测本机 localhost HTTP 接口：GET/HEAD、状态码、耗时与有界响应体预览，支持状态码与 JSON 字段断言，不跟随重定向、不走代理、绝不执行响应内容。",
+  "display_name": {
+    "en": "HTTP API Probe",
+    "zh": "HTTP 接口探测助手"
+  },
+  "display_description": {
+    "en": "Probe localhost HTTP APIs with GET/HEAD: status, elapsed time, bounded body preview, status-code and JSON field assertions; redirects not followed.",
+    "zh": "探测本机 HTTP 接口：GET/HEAD 状态、耗时与响应预览，支持状态码与 JSON 字段断言。"
+  },
+  "category": "Engineering",
+  "source": "local",
+  "avatar": "",
+  "default_init_input": {
+    "zh": "探测 http://127.0.0.1:8000/health，断言返回 200 且 status 字段为 ok。",
+    "en": "Probe http://127.0.0.1:8000/health, asserting status 200 and JSON field status=ok."
+  },
+  "tags": [
+    {
+      "en": "HTTP",
+      "zh": "接口"
+    },
+    {
+      "en": "Debugging",
+      "zh": "调试"
+    },
+    {
+      "en": "Localhost",
+      "zh": "本机"
+    }
+  ],
+  "quick_inputs": [
+    {
+      "zh": "探测 http://127.0.0.1:8000/health，断言返回 200 且 status 字段为 ok。",
+      "en": "Probe http://127.0.0.1:8000/health, asserting status 200 and JSON field status=ok."
+    },
+    {
+      "zh": "本地接口返回了什么？看看状态码、内容类型和响应体预览。",
+      "en": "What does this local endpoint return? Show status, content type and a body preview."
+    },
+    {
+      "zh": "验证 http://127.0.0.1:3000/api/items 返回的 JSON 字段是否符合预期。",
+      "en": "Verify the JSON fields returned by http://127.0.0.1:3000/api/items against expectations."
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/http-api-debugging",
+      "mode": "all"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/http_api_probe_tool.py",
+      "class": "HttpApiProbeTool",
+      "display_name": {
+        "en": "HTTP API Probe Tool",
+        "zh": "HTTP 接口探测工具"
+      },
+      "display_description": {
+        "en": "Localhost-only GET/HEAD prober with bounded body, status and JSON field assertions; never executes response content.",
+        "zh": "仅限本机的 GET/HEAD 探测：有界响应体、状态码与 JSON 字段断言，绝不执行响应内容。"
+      }
+    }
+  ]
+}

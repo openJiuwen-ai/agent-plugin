@@ -1,0 +1,69 @@
+{
+  "version": "0.1.0",
+  "package_type": "plugin",
+  "id": "developer-docs",
+  "name": "开发文档助手",
+  "description": "识别项目依赖声明和锁定版本，按指定库名与问题查询 Context7，返回文档证据并标明版本限制。",
+  "display_name": {
+    "zh": "开发文档助手",
+    "en": "Developer Docs"
+  },
+  "display_description": {
+    "zh": "识别项目依赖声明和锁定版本，按指定库名与问题查询 Context7，返回文档证据并标明版本限制。",
+    "en": "Inspect dependency declarations and query Context7 for version-aware documentation evidence."
+  },
+  "category": "Engineering",
+  "source": "local",
+  "default_init_input": {
+    "zh": "按项目使用的 FastAPI 版本查询跨域配置方法",
+    "en": "Find CORS docs for the project's FastAPI version"
+  },
+  "quick_inputs": [
+    {
+      "zh": "按项目使用的 FastAPI 版本查询跨域配置方法",
+      "en": "Find CORS docs for the project's FastAPI version"
+    },
+    {
+      "zh": "检查项目里的 React 版本声明",
+      "en": "Inspect React version declarations"
+    },
+    {
+      "zh": "查询指定版本的 Pydantic 校验示例并附来源",
+      "en": "Find version-specific Pydantic validation examples"
+    }
+  ],
+  "tags": [
+    {
+      "zh": "研发",
+      "en": "Development"
+    },
+    {
+      "zh": "证据",
+      "en": "Evidence"
+    },
+    {
+      "zh": "工作流",
+      "en": "Workflow"
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/developer-docs",
+      "mode": "auto_list"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/developer_docs_tool.py",
+      "class": "DeveloperDocsTool",
+      "display_name": {
+        "zh": "开发文档助手",
+        "en": "Developer Docs"
+      },
+      "display_description": {
+        "zh": "识别项目依赖声明和锁定版本，按指定库名与问题查询 Context7，返回文档证据并标明版本限制。",
+        "en": "Inspect dependency declarations and query Context7 for version-aware documentation evidence."
+      }
+    }
+  ]
+}
