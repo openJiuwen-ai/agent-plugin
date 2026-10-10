@@ -17,7 +17,16 @@ JiuwenSwarm（聚问蜂群）**官方 plugin 插件包集合仓**：对应 Hub �
 <!-- catalog:begin -->
 | 插件 | 版本 | 分类 | 能力组成 | 简介 |
 | --- | --- | --- | --- | --- |
-| [example-plugin](./plugins/example-plugin) | 1.0.0 | Engineering | 1 skill + 1 tool + 1 rail | 官方参考插件：用 skill 指导、tool 执行、rail 监听三类组件演示插件包的标准写法。 |
+| [build-log-diagnosis](./plugins/build-log-diagnosis) | 0.1.0 | Engineering | 1 skill + 1 tool | 本地提取构建日志中的错误上下文、源码位置和可能原因，区分证据与推断并给出可执行验证步骤。 |
+| [commit-draft](./plugins/commit-draft) | 0.1.0 | Engineering | 1 skill + 1 tool | 读取指定 Git 差异与仓库模板，生成有证据的提交信息和 PR 描述草稿，不自动提交或推送。 |
+| [developer-docs](./plugins/developer-docs) | 0.1.0 | Engineering | 1 skill + 1 tool | 识别项目依赖声明和锁定版本，按指定库名与问题查询 Context7，返回文档证据并标明版本限制。 |
+| [docker-inspector](./plugins/docker-inspector) | 0.1.0 | Engineering | 1 skill + 1 tool | 只读诊断本机 Docker：列出容器、检查健康状态与端口映射、查看脱敏后的最近日志，不做变更。 |
+| [git-history-trace](./plugins/git-history-trace) | 0.1.0 | Engineering | 1 skill + 1 tool | 只读追踪本地 Git 文件的提交历史与行级 blame 归属，可展示指定提交证据，不改动工作区。 |
+| [http-api-probe](./plugins/http-api-probe) | 0.1.0 | Engineering | 1 skill + 1 tool | 探测本机 HTTP 接口：GET/HEAD 状态、耗时与响应预览，支持状态码与 JSON 字段断言。 |
+| [notebook-inspector](./plugins/notebook-inspector) | 0.1.0 | Engineering | 1 skill + 1 tool | 不执行任何单元格，静态读取本地 notebook：大纲、预览、报错与执行顺序提示，可导出清洗副本。 |
+| [page-acceptance](./plugins/page-acceptance) | 0.1.0 | Engineering | 1 skill + 1 tool | 在独立浏览器会话中按明确步骤验收本地页面，记录断言结果、错误与截图，失败不会报告为通过。 |
+| [pr-comment-assistant](./plugins/pr-comment-assistant) | 0.1.0 | Engineering | 1 skill + 1 tool | 读取 AtomGit 检视意见并关联代码位置，整理待办后按选定意见修改，生成带验证证据的回复草稿。 |
+| [sqlite-inspector](./plugins/sqlite-inspector) | 0.1.0 | Engineering | 1 skill + 1 tool | 只读查看本地 SQLite 库：表清单、列与索引结构、受限查询与执行计划，拒绝一切写入。 |
 <!-- catalog:end -->
 
 > 上表由 `python scripts/catalog.py` 生成，请勿手改。

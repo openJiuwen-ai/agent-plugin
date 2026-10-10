@@ -1,0 +1,70 @@
+{
+  "version": "0.1.0",
+  "package_type": "plugin",
+  "id": "git-history-trace",
+  "name": "Git 历史追踪助手",
+  "description": "只读追踪本地 Git 文件的提交历史与行级 blame 归属，可展示指定提交的元数据与有界 diff，不改动工作区。",
+  "display_name": {
+    "en": "Git History Trace",
+    "zh": "Git 历史追踪助手"
+  },
+  "display_description": {
+    "en": "Read-only Git file history and blame line attribution with commit evidence (SHA/author/date); never touches the worktree.",
+    "zh": "只读追踪本地 Git 文件的提交历史与行级 blame 归属，可展示指定提交证据，不改动工作区。"
+  },
+  "category": "Engineering",
+  "source": "local",
+  "avatar": "",
+  "default_init_input": {
+    "zh": "追踪 src/app.py 的提交历史和每一行的最后修改者。",
+    "en": "Trace the commit history of src/app.py and the last author of each line."
+  },
+  "tags": [
+    {
+      "en": "Git",
+      "zh": "版本历史"
+    },
+    {
+      "en": "Blame",
+      "zh": "行级归属"
+    },
+    {
+      "en": "Evidence",
+      "zh": "证据"
+    }
+  ],
+  "quick_inputs": [
+    {
+      "zh": "追踪 src/app.py 的提交历史和每一行的最后修改者。",
+      "en": "Trace the commit history of src/app.py and the last author of each line."
+    },
+    {
+      "zh": "看看这几行代码是谁在哪个提交改的：src/app.py 第 42-48 行。",
+      "en": "Find who changed these lines and in which commit: src/app.py lines 42-48."
+    },
+    {
+      "zh": "展示最近一次修改 config.yaml 的提交及其差异。",
+      "en": "Show the latest commit that touched config.yaml along with its diff."
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/git-history-tracing",
+      "mode": "all"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/git_history_trace_tool.py",
+      "class": "GitHistoryTraceTool",
+      "display_name": {
+        "en": "Git History Trace Tool",
+        "zh": "Git 历史追踪工具"
+      },
+      "display_description": {
+        "en": "Read-only Git tracing: file history, blame line ranges and commit evidence with SHA/author/date preserved.",
+        "zh": "只读追踪 Git：文件提交历史、blame 行区间与提交证据，保留 SHA、作者与日期。"
+      }
+    }
+  ]
+}

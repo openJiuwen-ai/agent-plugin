@@ -1,0 +1,69 @@
+{
+  "version": "0.1.0",
+  "package_type": "plugin",
+  "id": "build-log-diagnosis",
+  "name": "构建失败诊断助手",
+  "description": "本地提取构建日志中的错误上下文、源码位置和可能原因，区分证据与推断并给出可执行验证步骤。",
+  "display_name": {
+    "zh": "构建失败诊断助手",
+    "en": "Build Log Diagnosis"
+  },
+  "display_description": {
+    "zh": "本地提取构建日志中的错误上下文、源码位置和可能原因，区分证据与推断并给出可执行验证步骤。",
+    "en": "Extract local build failure evidence, source locations and hypotheses with verification steps."
+  },
+  "category": "Engineering",
+  "source": "local",
+  "default_init_input": {
+    "zh": "分析这份构建日志，告诉我先检查哪里",
+    "en": "Diagnose this build log and suggest the next check"
+  },
+  "quick_inputs": [
+    {
+      "zh": "分析这份构建日志，告诉我先检查哪里",
+      "en": "Diagnose this build log and suggest the next check"
+    },
+    {
+      "zh": "定位 Python traceback 对应的源码位置",
+      "en": "Locate source from a Python traceback"
+    },
+    {
+      "zh": "区分依赖冲突、测试失败和编译错误",
+      "en": "Separate dependency, test and compiler failures"
+    }
+  ],
+  "tags": [
+    {
+      "zh": "研发",
+      "en": "Development"
+    },
+    {
+      "zh": "证据",
+      "en": "Evidence"
+    },
+    {
+      "zh": "工作流",
+      "en": "Workflow"
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/build-log-diagnosis",
+      "mode": "auto_list"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/build_log_tool.py",
+      "class": "BuildLogTool",
+      "display_name": {
+        "zh": "构建失败诊断助手",
+        "en": "Build Log Diagnosis"
+      },
+      "display_description": {
+        "zh": "本地提取构建日志中的错误上下文、源码位置和可能原因，区分证据与推断并给出可执行验证步骤。",
+        "en": "Extract local build failure evidence, source locations and hypotheses with verification steps."
+      }
+    }
+  ]
+}

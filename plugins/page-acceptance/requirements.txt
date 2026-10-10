@@ -1,0 +1,2 @@
+# Install Chromium separately: python -m playwright install chromium
+playwright>=1.48,<2

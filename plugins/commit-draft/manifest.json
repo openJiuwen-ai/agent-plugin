@@ -1,0 +1,69 @@
+{
+  "version": "0.1.0",
+  "package_type": "plugin",
+  "id": "commit-draft",
+  "name": "提交说明助手",
+  "description": "读取指定 Git 差异与仓库模板，生成有证据的提交信息和 PR 描述草稿，不自动提交或推送。",
+  "display_name": {
+    "zh": "提交说明助手",
+    "en": "Commit Draft"
+  },
+  "display_description": {
+    "zh": "读取指定 Git 差异与仓库模板，生成有证据的提交信息和 PR 描述草稿，不自动提交或推送。",
+    "en": "Generate evidence-based commit and PR drafts from local Git changes and repository templates."
+  },
+  "category": "Engineering",
+  "source": "local",
+  "default_init_input": {
+    "zh": "根据暂存区改动生成提交信息和 PR 描述",
+    "en": "Draft a commit and PR from staged changes"
+  },
+  "quick_inputs": [
+    {
+      "zh": "根据暂存区改动生成提交信息和 PR 描述",
+      "en": "Draft a commit and PR from staged changes"
+    },
+    {
+      "zh": "比较当前分支和 main，按仓库模板写 PR 草稿",
+      "en": "Draft a PR comparing this branch with main"
+    },
+    {
+      "zh": "解释工作区未暂存改动，生成提交说明",
+      "en": "Explain unstaged changes and draft a commit"
+    }
+  ],
+  "tags": [
+    {
+      "zh": "研发",
+      "en": "Development"
+    },
+    {
+      "zh": "证据",
+      "en": "Evidence"
+    },
+    {
+      "zh": "工作流",
+      "en": "Workflow"
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/commit-draft",
+      "mode": "auto_list"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/commit_draft_tool.py",
+      "class": "CommitDraftTool",
+      "display_name": {
+        "zh": "提交说明助手",
+        "en": "Commit Draft"
+      },
+      "display_description": {
+        "zh": "读取指定 Git 差异与仓库模板，生成有证据的提交信息和 PR 描述草稿，不自动提交或推送。",
+        "en": "Generate evidence-based commit and PR drafts from local Git changes and repository templates."
+      }
+    }
+  ]
+}

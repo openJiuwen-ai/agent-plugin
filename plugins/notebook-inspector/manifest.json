@@ -1,0 +1,70 @@
+{
+  "version": "0.1.0",
+  "package_type": "plugin",
+  "id": "notebook-inspector",
+  "name": "Notebook 检查器",
+  "description": "不执行任何 cell，静态检查本地 .ipynb：cell 大纲、有界预览、历史错误与执行顺序提示，并可导出去除 outputs/execution_count 的清洗副本。",
+  "display_name": {
+    "en": "Notebook Inspector",
+    "zh": "Notebook 检查器"
+  },
+  "display_description": {
+    "en": "Statically inspect local .ipynb files without executing anything: cell outline, bounded previews, recorded errors and execution-order hints, plus safe export of cleaned copies.",
+    "zh": "不执行任何单元格，静态读取本地 notebook：大纲、预览、报错与执行顺序提示，可导出清洗副本。"
+  },
+  "category": "Engineering",
+  "source": "local",
+  "avatar": "",
+  "default_init_input": {
+    "zh": "检查 analysis.ipynb：列出 cell 大纲、执行顺序提示和记录到的报错，再导出一份去掉输出的干净副本。",
+    "en": "Inspect analysis.ipynb: list the cell outline, execution-order hints and recorded errors, then export a cleaned copy without outputs."
+  },
+  "tags": [
+    {
+      "en": "Notebook",
+      "zh": "笔记本"
+    },
+    {
+      "en": "StaticAnalysis",
+      "zh": "静态分析"
+    },
+    {
+      "en": "Export",
+      "zh": "导出"
+    }
+  ],
+  "quick_inputs": [
+    {
+      "zh": "检查 analysis.ipynb：列出 cell 大纲、执行顺序提示和记录到的报错，再导出一份去掉输出的干净副本。",
+      "en": "Inspect analysis.ipynb: list the cell outline, execution-order hints and recorded errors, then export a cleaned copy without outputs."
+    },
+    {
+      "zh": "这个 notebook 上次运行时在哪个 cell 报了什么错？",
+      "en": "Which cell failed last time this notebook ran, and with what error?"
+    },
+    {
+      "zh": "把 report.ipynb 清洗后另存为新文件，去掉所有输出和执行计数。",
+      "en": "Save a cleaned copy of report.ipynb as a new file with outputs and execution counts removed."
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/notebook-inspection",
+      "mode": "all"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/notebook_inspector_tool.py",
+      "class": "NotebookInspectorTool",
+      "display_name": {
+        "en": "Notebook Inspector Tool",
+        "zh": "Notebook 检查工具"
+      },
+      "display_description": {
+        "en": "Read-only .ipynb JSON inspection (outline, bounded previews, errors, execution-order hints) and safe export of cleaned copies; never executes cells.",
+        "zh": "只读解析 .ipynb JSON：cell 大纲、有界预览、历史错误与执行顺序提示，并可安全导出去除输出的清洗副本；绝不执行任何 cell。"
+      }
+    }
+  ]
+}

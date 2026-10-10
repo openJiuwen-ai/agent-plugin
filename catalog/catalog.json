@@ -2,43 +2,374 @@
   "schema_version": 1,
   "plugins": [
     {
-      "id": "example-plugin",
-      "version": "1.0.0",
+      "id": "build-log-diagnosis",
+      "version": "0.1.0",
       "display_name": {
-        "en": "Example Plugin",
-        "zh": "示例插件"
+        "zh": "构建失败诊断助手",
+        "en": "Build Log Diagnosis"
       },
       "display_description": {
-        "en": "Official reference plugin demonstrating the standard layout of skills, tools and rails in one package.",
-        "zh": "官方参考插件：用 skill 指导、tool 执行、rail 监听三类组件演示插件包的标准写法。"
+        "zh": "本地提取构建日志中的错误上下文、源码位置和可能原因，区分证据与推断并给出可执行验证步骤。",
+        "en": "Extract local build failure evidence, source locations and hypotheses with verification steps."
       },
       "category": "Engineering",
       "tags": [
         {
-          "en": "Text",
-          "zh": "文本"
+          "zh": "研发",
+          "en": "Development"
         },
         {
-          "en": "Statistics",
-          "zh": "统计"
+          "zh": "证据",
+          "en": "Evidence"
         },
         {
-          "en": "Example",
-          "zh": "示例"
+          "zh": "工作流",
+          "en": "Workflow"
         }
       ],
       "capabilities": {
         "skills": [
-          "usage-report"
+          "build-log-diagnosis"
         ],
         "tools": [
-          "WordCountTool"
+          "BuildLogTool"
         ],
-        "rails": [
-          "TurnCounterRail"
-        ]
+        "rails": []
       },
-      "path": "plugins/example-plugin"
+      "path": "plugins/build-log-diagnosis"
+    },
+    {
+      "id": "commit-draft",
+      "version": "0.1.0",
+      "display_name": {
+        "zh": "提交说明助手",
+        "en": "Commit Draft"
+      },
+      "display_description": {
+        "zh": "读取指定 Git 差异与仓库模板，生成有证据的提交信息和 PR 描述草稿，不自动提交或推送。",
+        "en": "Generate evidence-based commit and PR drafts from local Git changes and repository templates."
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "zh": "研发",
+          "en": "Development"
+        },
+        {
+          "zh": "证据",
+          "en": "Evidence"
+        },
+        {
+          "zh": "工作流",
+          "en": "Workflow"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "commit-draft"
+        ],
+        "tools": [
+          "CommitDraftTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/commit-draft"
+    },
+    {
+      "id": "developer-docs",
+      "version": "0.1.0",
+      "display_name": {
+        "zh": "开发文档助手",
+        "en": "Developer Docs"
+      },
+      "display_description": {
+        "zh": "识别项目依赖声明和锁定版本，按指定库名与问题查询 Context7，返回文档证据并标明版本限制。",
+        "en": "Inspect dependency declarations and query Context7 for version-aware documentation evidence."
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "zh": "研发",
+          "en": "Development"
+        },
+        {
+          "zh": "证据",
+          "en": "Evidence"
+        },
+        {
+          "zh": "工作流",
+          "en": "Workflow"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "developer-docs"
+        ],
+        "tools": [
+          "DeveloperDocsTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/developer-docs"
+    },
+    {
+      "id": "docker-inspector",
+      "version": "0.1.0",
+      "display_name": {
+        "en": "Docker Inspector",
+        "zh": "Docker 检查助手"
+      },
+      "display_description": {
+        "en": "Read-only local Docker diagnostics: list containers, check health and port mappings, view redacted recent logs; never mutates anything.",
+        "zh": "只读诊断本机 Docker：列出容器、检查健康状态与端口映射、查看脱敏后的最近日志，不做变更。"
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "en": "Docker",
+          "zh": "容器"
+        },
+        {
+          "en": "Diagnostics",
+          "zh": "诊断"
+        },
+        {
+          "en": "ReadOnly",
+          "zh": "只读"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "docker-diagnostics"
+        ],
+        "tools": [
+          "DockerInspectorTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/docker-inspector"
+    },
+    {
+      "id": "git-history-trace",
+      "version": "0.1.0",
+      "display_name": {
+        "en": "Git History Trace",
+        "zh": "Git 历史追踪助手"
+      },
+      "display_description": {
+        "en": "Read-only Git file history and blame line attribution with commit evidence (SHA/author/date); never touches the worktree.",
+        "zh": "只读追踪本地 Git 文件的提交历史与行级 blame 归属，可展示指定提交证据，不改动工作区。"
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "en": "Git",
+          "zh": "版本历史"
+        },
+        {
+          "en": "Blame",
+          "zh": "行级归属"
+        },
+        {
+          "en": "Evidence",
+          "zh": "证据"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "git-history-tracing"
+        ],
+        "tools": [
+          "GitHistoryTraceTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/git-history-trace"
+    },
+    {
+      "id": "http-api-probe",
+      "version": "0.1.0",
+      "display_name": {
+        "en": "HTTP API Probe",
+        "zh": "HTTP 接口探测助手"
+      },
+      "display_description": {
+        "en": "Probe localhost HTTP APIs with GET/HEAD: status, elapsed time, bounded body preview, status-code and JSON field assertions; redirects not followed.",
+        "zh": "探测本机 HTTP 接口：GET/HEAD 状态、耗时与响应预览，支持状态码与 JSON 字段断言。"
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "en": "HTTP",
+          "zh": "接口"
+        },
+        {
+          "en": "Debugging",
+          "zh": "调试"
+        },
+        {
+          "en": "Localhost",
+          "zh": "本机"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "http-api-debugging"
+        ],
+        "tools": [
+          "HttpApiProbeTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/http-api-probe"
+    },
+    {
+      "id": "notebook-inspector",
+      "version": "0.1.0",
+      "display_name": {
+        "en": "Notebook Inspector",
+        "zh": "Notebook 检查器"
+      },
+      "display_description": {
+        "en": "Statically inspect local .ipynb files without executing anything: cell outline, bounded previews, recorded errors and execution-order hints, plus safe export of cleaned copies.",
+        "zh": "不执行任何单元格，静态读取本地 notebook：大纲、预览、报错与执行顺序提示，可导出清洗副本。"
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "en": "Notebook",
+          "zh": "笔记本"
+        },
+        {
+          "en": "StaticAnalysis",
+          "zh": "静态分析"
+        },
+        {
+          "en": "Export",
+          "zh": "导出"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "notebook-inspection"
+        ],
+        "tools": [
+          "NotebookInspectorTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/notebook-inspector"
+    },
+    {
+      "id": "page-acceptance",
+      "version": "0.1.0",
+      "display_name": {
+        "zh": "页面验收助手",
+        "en": "Page Acceptance"
+      },
+      "display_description": {
+        "zh": "在独立浏览器会话中按明确步骤验收本地页面，记录断言结果、错误与截图，失败不会报告为通过。",
+        "en": "Check a local page with explicit browser steps, assertions and screenshot evidence in an isolated session."
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "zh": "研发",
+          "en": "Development"
+        },
+        {
+          "zh": "证据",
+          "en": "Evidence"
+        },
+        {
+          "zh": "工作流",
+          "en": "Workflow"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "page-acceptance"
+        ],
+        "tools": [
+          "PageAcceptanceTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/page-acceptance"
+    },
+    {
+      "id": "pr-comment-assistant",
+      "version": "0.1.0",
+      "display_name": {
+        "zh": "PR 意见处理助手",
+        "en": "PR Comment Assistant"
+      },
+      "display_description": {
+        "zh": "读取 AtomGit 检视意见并关联代码位置，整理待办后按选定意见修改，生成带验证证据的回复草稿。",
+        "en": "Read AtomGit review comments, organize actionable items and guide selected fixes with reply drafts."
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "zh": "研发",
+          "en": "Development"
+        },
+        {
+          "zh": "证据",
+          "en": "Evidence"
+        },
+        {
+          "zh": "工作流",
+          "en": "Workflow"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "pr-comment-assistant"
+        ],
+        "tools": [
+          "PrCommentsTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/pr-comment-assistant"
+    },
+    {
+      "id": "sqlite-inspector",
+      "version": "0.1.0",
+      "display_name": {
+        "en": "SQLite Inspector",
+        "zh": "SQLite 检查助手"
+      },
+      "display_description": {
+        "en": "Read-only inspection of local SQLite files: tables, columns, indexes, bounded parameterized queries with query plans; writes are always rejected.",
+        "zh": "只读查看本地 SQLite 库：表清单、列与索引结构、受限查询与执行计划，拒绝一切写入。"
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "en": "Database",
+          "zh": "数据库"
+        },
+        {
+          "en": "ReadOnly",
+          "zh": "只读"
+        },
+        {
+          "en": "Inspection",
+          "zh": "检查"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "sqlite-inspection"
+        ],
+        "tools": [
+          "SqliteInspectorTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/sqlite-inspector"
     }
   ]
 }

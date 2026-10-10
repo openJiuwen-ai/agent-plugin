@@ -1,0 +1,70 @@
+{
+  "version": "0.1.0",
+  "package_type": "plugin",
+  "id": "docker-inspector",
+  "name": "Docker 检查助手",
+  "description": "只读诊断本机 Docker：列出容器、检查健康状态与端口映射、查看脱敏后的最近日志，绝不做任何变更操作。",
+  "display_name": {
+    "en": "Docker Inspector",
+    "zh": "Docker 检查助手"
+  },
+  "display_description": {
+    "en": "Read-only local Docker diagnostics: list containers, check health and port mappings, view redacted recent logs; never mutates anything.",
+    "zh": "只读诊断本机 Docker：列出容器、检查健康状态与端口映射、查看脱敏后的最近日志，不做变更。"
+  },
+  "category": "Engineering",
+  "source": "local",
+  "avatar": "",
+  "default_init_input": {
+    "zh": "列出本机 Docker 容器，并检查 web 容器的健康状态和端口映射。",
+    "en": "List local Docker containers and check the health status and port mappings of the web container."
+  },
+  "tags": [
+    {
+      "en": "Docker",
+      "zh": "容器"
+    },
+    {
+      "en": "Diagnostics",
+      "zh": "诊断"
+    },
+    {
+      "en": "ReadOnly",
+      "zh": "只读"
+    }
+  ],
+  "quick_inputs": [
+    {
+      "zh": "列出本机 Docker 容器，并检查 web 容器的健康状态和端口映射。",
+      "en": "List local Docker containers and check the health status and port mappings of the web container."
+    },
+    {
+      "zh": "看看 api 容器最近 100 行日志，注意脱敏。",
+      "en": "Show the last 100 log lines of the api container with secrets redacted."
+    },
+    {
+      "zh": "容器一直重启，帮我诊断它的状态和退出原因。",
+      "en": "The container keeps restarting; diagnose its state and exit reason."
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/docker-diagnostics",
+      "mode": "all"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/docker_inspector_tool.py",
+      "class": "DockerInspectorTool",
+      "display_name": {
+        "en": "Docker Inspector Tool",
+        "zh": "Docker 检查工具"
+      },
+      "display_description": {
+        "en": "Read-only Docker CLI wrapper: list containers, inspect curated health/status/ports, tail redacted logs; no mutations.",
+        "zh": "只读封装 Docker CLI：列出容器、白名单字段检查健康与端口、脱敏查看日志，无任何变更。"
+      }
+    }
+  ]
+}
