@@ -39,6 +39,43 @@
         ]
       },
       "path": "plugins/example-plugin"
+    },
+    {
+      "id": "web-to-markdown",
+      "version": "1.0.0",
+      "display_name": {
+        "en": "Web to Markdown",
+        "zh": "网页转 Markdown"
+      },
+      "display_description": {
+        "en": "Fetch a web page's main content and convert it into clean Markdown notes for saving and editing.",
+        "zh": "把网页正文抓取并转换为结构化 Markdown 笔记，支持保存与二次编辑，适合知识整理与收藏归档。"
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "en": "Web",
+          "zh": "网页"
+        },
+        {
+          "en": "Markdown",
+          "zh": "Markdown"
+        },
+        {
+          "en": "Notes",
+          "zh": "笔记"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "web-to-markdown"
+        ],
+        "tools": [
+          "WebToMarkdownTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/web-to-markdown"
     }
   ]
 }
