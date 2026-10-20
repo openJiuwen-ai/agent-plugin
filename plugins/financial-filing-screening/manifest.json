@@ -1,0 +1,69 @@
+{
+  "version": "0.1.2",
+  "package_type": "plugin",
+  "id": "financial-filing-screening",
+  "name": "Financial Filing Screening",
+  "description": "Run a fixed openJiuwen workflow on local SEC annual-report files, retaining policy decisions and source evidence.",
+  "display_name": {
+    "en": "Financial Filing Screening",
+    "zh": "财报证据筛查"
+  },
+  "display_description": {
+    "en": "Screen local SEC reports with model-assisted extraction, Python policy checks and source-cited JSON results.",
+    "zh": "读取本地 SEC 年报，以模型提取财务证据、代码执行规则，输出附来源引用的筛查结果并保留未核实项。"
+  },
+  "category": "IndustryConsultant",
+  "source": "local",
+  "default_init_input": {
+    "en": "Inspect my SEC filing folder and show the company, fiscal year and available reports without calling a model.",
+    "zh": "检查我的 SEC 年报目录，不调用模型，显示公司、财年和可用报表。"
+  },
+  "tags": [
+    {
+      "en": "Financial Screening",
+      "zh": "财报筛查"
+    },
+    {
+      "en": "Evidence",
+      "zh": "证据溯源"
+    },
+    {
+      "en": "Workflow",
+      "zh": "工作流"
+    }
+  ],
+  "quick_inputs": [
+    {
+      "en": "Inspect my SEC filing folder and show the company, fiscal year and available reports without calling a model.",
+      "zh": "检查我的 SEC 年报目录，不调用模型，显示公司、财年和可用报表。"
+    },
+    {
+      "en": "Screen this SEC filing using the configured local model and save a decision with source citations.",
+      "zh": "使用已配置的本地模型筛查这份 SEC 年报，保存决策和来源引用。"
+    },
+    {
+      "en": "Explain the financial checks and unresolved risks in my completed screening report.",
+      "zh": "解释已完成筛查报告中的财务检查和未核实风险。"
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/financial-filing-screening",
+      "mode": "auto_list"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/financial_screening_tool.py",
+      "class": "FinancialScreeningTool",
+      "display_name": {
+        "en": "Screen SEC Filing",
+        "zh": "SEC 财报筛查"
+      },
+      "display_description": {
+        "en": "Inspect or screen a local rendered filing and write an auditable JSON report.",
+        "zh": "检查或筛查本地财报，生成包含来源引用的 JSON 报告。"
+      }
+    }
+  ]
+}

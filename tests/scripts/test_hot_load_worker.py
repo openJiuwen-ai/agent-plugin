@@ -9,8 +9,26 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from types import ModuleType
+
+import pytest
 
 import hot_load_worker
+
+
+@pytest.fixture(autouse=True)
+def namespace_without_optional_sdk(monkeypatch):
+    """These loader unit tests do not require the optional openjiuwen runtime.
+
+    Relative imports need the ancestors of the synthetic extension namespace.
+    Production run() imports the real SDK first; provide only missing parents
+    here and restore them after each test rather than masking a real SDK.
+    """
+    for name in ("openjiuwen", "openjiuwen.extensions"):
+        if name not in sys.modules:
+            module = ModuleType(name)
+            module.__path__ = []
+            monkeypatch.setitem(sys.modules, name, module)
 
 
 def _make_pkg(tmp_path: Path, name: str) -> Path:

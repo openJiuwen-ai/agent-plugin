@@ -41,6 +41,43 @@
       "path": "plugins/example-plugin"
     },
     {
+      "id": "financial-filing-screening",
+      "version": "0.1.2",
+      "display_name": {
+        "en": "Financial Filing Screening",
+        "zh": "财报证据筛查"
+      },
+      "display_description": {
+        "en": "Screen local SEC reports with model-assisted extraction, Python policy checks and source-cited JSON results.",
+        "zh": "读取本地 SEC 年报，以模型提取财务证据、代码执行规则，输出附来源引用的筛查结果并保留未核实项。"
+      },
+      "category": "IndustryConsultant",
+      "tags": [
+        {
+          "en": "Financial Screening",
+          "zh": "财报筛查"
+        },
+        {
+          "en": "Evidence",
+          "zh": "证据溯源"
+        },
+        {
+          "en": "Workflow",
+          "zh": "工作流"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "financial-filing-screening"
+        ],
+        "tools": [
+          "FinancialScreeningTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/financial-filing-screening"
+    },
+    {
       "id": "web-to-markdown",
       "version": "1.0.0",
       "display_name": {

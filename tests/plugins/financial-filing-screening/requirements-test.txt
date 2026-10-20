@@ -1,0 +1,3 @@
+-r ../../../plugins/financial-filing-screening/runtime/requirements.txt
+pytest==9.1.1
+opentelemetry-sdk==1.41.1

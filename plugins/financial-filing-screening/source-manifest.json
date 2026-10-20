@@ -1,0 +1,95 @@
+{
+  "source": "claude-slm-research/tester-fork/src/screening",
+  "snapshot_date": "2026-10-19",
+  "basis": "swarm-vs-workflow-demo/demo_workflow.py: run_screening_workflow(source_format=\"html\")",
+  "files": [
+    {
+      "path": "runtime/screening/__init__.py",
+      "sha256": "72a5c24b97bc20849e1ca25198b1995adc9706efd67aaaaf06c06fef604ebcf1"
+    },
+    {
+      "path": "runtime/screening/citations.py",
+      "sha256": "73db2842f2c598fdd7c2675ad1e35911aba6f291890efd87a652d362ac385f26"
+    },
+    {
+      "path": "runtime/screening/domain/__init__.py",
+      "sha256": "a6739bbbb7524ca10f8347c529ca7753d8ab5fdce919ad6df01c56e3f009c14c"
+    },
+    {
+      "path": "runtime/screening/domain/calculations.py",
+      "sha256": "bc77757d223e08c3449d34e644480066dfbeea6d00d885951bcc96781aa16031"
+    },
+    {
+      "path": "runtime/screening/domain/models.py",
+      "sha256": "33345cd0a440fd1896e0ee1c391d6925b5f6d33cfea8888c19d3ea3f45957bd7"
+    },
+    {
+      "path": "runtime/screening/domain/policy.py",
+      "sha256": "3448f1df5e6b40fde88ccc6737a2c4fdd13cb0ab83cc16fed793310db4ef18ea"
+    },
+    {
+      "path": "runtime/screening/extraction/__init__.py",
+      "sha256": "7b99b0114cfe2fa2fb88c907e1bc1bc9064db7ea08d2cf579768c4ae42409fa5"
+    },
+    {
+      "path": "runtime/screening/extraction/models.py",
+      "sha256": "2c77ba9a23f0f13c108b61ed4222d7c02e771ee03eeed17f43668a8114aa0449"
+    },
+    {
+      "path": "runtime/screening/extraction/openjiuwen.py",
+      "sha256": "2260f07ffb83c11aa5a38668db0be0011d80fa34745afac369a06cdacde16ee9",
+      "upstream_sha256": "5d4c63dc1d9fd2cc0aeb7cd7314833dd2dc456dc3838ce491bdb889eefe8f36f",
+      "modification": "0.1.2: define reported operating cash flow explicitly and use schema-constrained, non-thinking local Qwen3-14B extraction through SDK extra_body."
+    },
+    {
+      "path": "runtime/screening/extraction/risk.py",
+      "sha256": "4b82b5d1c732bd20b69907d161501ca882f71c4e1a3081f06abbedc3aac7d727"
+    },
+    {
+      "path": "runtime/screening/ingestion/__init__.py",
+      "sha256": "78381a272df6dda190980f3d10855b2cf3aef0e870cacfebe1dae74c920d4447"
+    },
+    {
+      "path": "runtime/screening/ingestion/html.py",
+      "sha256": "c0ffb938892e7977a99c2d426a897d934aa91c6dcfbf5ac43f808239faf8ced3"
+    },
+    {
+      "path": "runtime/screening/ingestion/pdf.py",
+      "sha256": "104e9ccb5f941473f052f55336eb988fa6012316378ab727ccfa53caa5381956"
+    },
+    {
+      "path": "runtime/screening/policy/__init__.py",
+      "sha256": "63564e479f0d18f01bb324ef555bafc2468fceccd9817eb6a0476e4969f2c8da"
+    },
+    {
+      "path": "runtime/screening/reporting/__init__.py",
+      "sha256": "2fd023c5621aa3da7866aa320d2f382d38cbcfd2d87564c712fb3761de150de3"
+    },
+    {
+      "path": "runtime/screening/reporting/json_report.py",
+      "sha256": "7e7a40c6c69fd1b7a4888a9c26f72f5f8dff086e040e176bba07cb7b35e9b095"
+    },
+    {
+      "path": "runtime/screening/retrieval/__init__.py",
+      "sha256": "f20148feafc37b688e7d4688c62cab5b2a0c0fda98209f536f9d1c839b868b25"
+    },
+    {
+      "path": "runtime/screening/retrieval/local.py",
+      "sha256": "67878c9d9409ba72cbf79f9b490aa589d205a9f82049af598ebcc81f21c5c4eb"
+    },
+    {
+      "path": "runtime/screening/retrieval/taxonomy.py",
+      "sha256": "88ac68de97f322b3b3e00b889e11510336b2ab7e0a23fde79a4735aab0e1744b"
+    },
+    {
+      "path": "runtime/screening/workflows/__init__.py",
+      "sha256": "79e9125e75b969e0d2e1a24addc2886bf50ada5bc0c6b1c851eef2e5eb61c7ef"
+    },
+    {
+      "path": "runtime/screening/workflows/screening.py",
+      "sha256": "ad3b85ac45e57188698ba9086c930d1f371b6881e4b7018e94b3bd22e508c61d",
+      "upstream_sha256": "0f22249e14f6ce0ef9f5bf62e224bfdbaa00acd4e437253eafac73bbd650983b",
+      "modification": "0.1.2: independent HTML report risk headings; downgrade passage-level CLEAR to overall UNVERIFIED for partial HTML risk coverage, preserving quotes and rationale. PDF behavior retained."
+    }
+  ]
+}
