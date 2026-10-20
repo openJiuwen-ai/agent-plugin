@@ -1,0 +1,70 @@
+{
+  "version": "1.0.0",
+  "package_type": "plugin",
+  "id": "web-to-markdown",
+  "name": "网页转 Markdown 笔记",
+  "description": "抓取网页正文并转换为结构化的 Markdown 笔记，便于保存到知识库或笔记应用。",
+  "display_name": {
+    "en": "Web to Markdown",
+    "zh": "网页转 Markdown"
+  },
+  "display_description": {
+    "en": "Fetch a web page's main content and convert it into clean Markdown notes for saving and editing.",
+    "zh": "把网页正文抓取并转换为结构化 Markdown 笔记，支持保存与二次编辑，适合知识整理与收藏归档。"
+  },
+  "category": "Engineering",
+  "source": "local",
+  "avatar": "",
+  "default_init_input": {
+    "zh": "把这篇网页转成 Markdown 笔记：https://example.com/article",
+    "en": "Convert this web page into a Markdown note: https://example.com/article"
+  },
+  "tags": [
+    {
+      "en": "Web",
+      "zh": "网页"
+    },
+    {
+      "en": "Markdown",
+      "zh": "Markdown"
+    },
+    {
+      "en": "Notes",
+      "zh": "笔记"
+    }
+  ],
+  "quick_inputs": [
+    {
+      "zh": "把这篇网页转成 Markdown 笔记：https://example.com/article",
+      "en": "Convert this web page into a Markdown note: https://example.com/article"
+    },
+    {
+      "zh": "抓取这个链接的正文并整理成笔记：https://example.com/post",
+      "en": "Fetch this link's content and organize it into a note: https://example.com/post"
+    },
+    {
+      "zh": "把这篇网页内容保存为 .md 文件",
+      "en": "Save this web page's content as a .md file"
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/web-to-markdown",
+      "mode": "all"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/web_to_markdown_tool.py",
+      "class": "WebToMarkdownTool",
+      "display_name": {
+        "en": "Web to Markdown Tool",
+        "zh": "网页转 Markdown 工具"
+      },
+      "display_description": {
+        "en": "Fetches a web page by URL and converts its main content into Markdown.",
+        "zh": "按 URL 抓取网页正文并转换为 Markdown 文本。"
+      }
+    }
+  ]
+}
