@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 
-JiuwenSwarm（聚问蜂群）**官方 plugin 插件包集合仓**：对应 Hub 市场资产类型
+JiuwenSwarm（九问蜂群）**官方 plugin 插件包集合仓**：对应 Hub 市场资产类型
 `agent-plugin`，为智能体提供**技能（skill）/ 工具（tool）/ 生命周期钩子（rail）**
 三类能力扩展的一站式内容源。
 
