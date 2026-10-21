@@ -1,0 +1,70 @@
+{
+  "version": "1.0.0",
+  "package_type": "plugin",
+  "id": "agent-health-check",
+  "name": "三方Agent健康检测",
+  "description": "只读体检本机 codex、Claude Code、Kimi Code、Zcode 等三方 Agent/智能体 CLI，检测安装、版本、登录配置与网络连通性并给出修复建议。",
+  "display_name": {
+    "en": "Agent Health Check",
+    "zh": "三方Agent健康检测"
+  },
+  "display_description": {
+    "en": "Read-only health scan for local third-party agent CLIs (codex, Claude Code, Kimi Code, Zcode, etc.): install, version, auth config and connectivity, with fix suggestions.",
+    "zh": "只读体检本机三方 Agent CLI 的安装、版本、登录与连通性，输出健康报告与修复建议。"
+  },
+  "category": "Engineering",
+  "source": "local",
+  "avatar": "",
+  "default_init_input": {
+    "zh": "全面体检本机已安装的三方 Agent（codex、Claude Code、Kimi Code、Zcode 等），输出健康报告",
+    "en": "Run a full health check of installed third-party agents (codex, Claude Code, Kimi Code, Zcode, etc.) and output a health report"
+  },
+  "tags": [
+    {
+      "en": "Health Check",
+      "zh": "健康检测"
+    },
+    {
+      "en": "Third-party Agents",
+      "zh": "三方Agent"
+    },
+    {
+      "en": "Diagnostics",
+      "zh": "诊断排障"
+    }
+  ],
+  "quick_inputs": [
+    {
+      "en": "Run a full health check of installed third-party agents (codex, Claude Code, Kimi Code, Zcode, etc.) and output a health report",
+      "zh": "全面体检本机已安装的三方 Agent（codex、Claude Code、Kimi Code、Zcode 等），输出健康报告"
+    },
+    {
+      "en": "Check only the install and login status of codex and Claude Code",
+      "zh": "只检测 codex 和 Claude Code 的安装与登录状态"
+    },
+    {
+      "en": "Check CLI presence, versions and network connectivity of all agents, then give fix suggestions",
+      "zh": "检测所有 Agent 的命令行、版本与网络连通性，并给出修复建议"
+    }
+  ],
+  "skills": [
+    {
+      "dir": "./skills/agent-health-check",
+      "mode": "all"
+    }
+  ],
+  "tools": [
+    {
+      "file": "tools/agent_health_tool.py",
+      "class": "AgentHealthCheckTool",
+      "display_name": {
+        "en": "Agent Health Check",
+        "zh": "三方Agent健康检测"
+      },
+      "display_description": {
+        "en": "Scan local third-party agent CLIs for install, version, auth config and optional endpoint connectivity.",
+        "zh": "扫描本机三方 Agent CLI 的安装、版本、登录配置与可选端点连通性。"
+      }
+    }
+  ]
+}

@@ -2,6 +2,43 @@
   "schema_version": 1,
   "plugins": [
     {
+      "id": "agent-health-check",
+      "version": "1.0.0",
+      "display_name": {
+        "en": "Agent Health Check",
+        "zh": "三方Agent健康检测"
+      },
+      "display_description": {
+        "en": "Read-only health scan for local third-party agent CLIs (codex, Claude Code, Kimi Code, Zcode, etc.): install, version, auth config and connectivity, with fix suggestions.",
+        "zh": "只读体检本机三方 Agent CLI 的安装、版本、登录与连通性，输出健康报告与修复建议。"
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "en": "Health Check",
+          "zh": "健康检测"
+        },
+        {
+          "en": "Third-party Agents",
+          "zh": "三方Agent"
+        },
+        {
+          "en": "Diagnostics",
+          "zh": "诊断排障"
+        }
+      ],
+      "capabilities": {
+        "skills": [
+          "agent-health-check"
+        ],
+        "tools": [
+          "AgentHealthCheckTool"
+        ],
+        "rails": []
+      },
+      "path": "plugins/agent-health-check"
+    },
+    {
       "id": "example-plugin",
       "version": "1.0.0",
       "display_name": {
