@@ -1,0 +1,201 @@
+1. System Specifications and Control Process Failures.
+Failures in agentic specifications and processes
+
+1.1. Specification Violations
+1.1.1. Task Specification Disobedience: Failure to adhere to specified task constraints or requirements.
+1.1.2. Role Specification Disobedience: Failure to adhere to defined role responsibilities and constraints.
+1.1.3. Instruction Non-compliance: Performing actions contrary to or different from provided instructions.
+
+1.2. Process Control Failures
+1.2.1. Unaware of Termination Conditions: Not recognizing when interaction should end.
+1.2.2. Premature Termination: Ending interactions before objectives are met.
+1.2.3. Step Repetition: Unnecessary reiteration of completed steps.
+1.2.4. Step Limit Exhaustion: Reaching maximum step caps despite reasonable behavior.
+
+2. Cognitive Process Failures.
+Failures in internal reasoning, memory, planning, and decision-making
+2.1. Information Processing Errors
+2.1.1. Poor Information Retrieval: Seeking irrelevant and wrong information.
+2.1.2. Retrieval Failure: Relevant information exists but isn't retrieved.
+2.1.3. Tool Output Misinterpretation: Incorrect assumptions about tool outputs.
+2.1.4. Knowledge Source Input Misinterpretation: Incorrect assumptions about input received from additional knowledge sources.
+
+2.2. Reasoning and Hallucination
+2.2.1. Language-only Hallucinations: Fabricated or ungrounded statements.
+2.2.2. Tool-related Hallucinations: Hallucinated tool outputs or capabilities.
+2.2.3. Reflection Hallucinations: Reflecting on events that never occurred.
+2.2.4. Knowledge/Reasoning Limitations: Missing knowledge or insufficient reasoning.
+2.2.5. Understanding Errors: Model’s deviation in understanding the given task.
+2.2.6. Missing Steps: Model has omitted some steps necessary for executing the task.
+2.2.7. Repeat Steps: The model has repeated some operation steps in the task.
+2.2.8. Conflicting Reasoning: The model makes wrong reasoning. 
+2.2.9. Misleading Reasoning: The model makes misleading reasoning. 
+
+2.3. Context and Memory Management Failures
+2.3.1. Loss of Conversation History: Unexpected context truncation and reversion to previous states.
+2.3.2. Context Handling Failures: Exceeding context window or forgetting important context.
+2.3.3. Over-simplification/Incomplete Summary: Summarizing information too crudely, ignoring critical details.
+2.3.4. Context Conflict: Misaligned and conflicting conversation history or intermediate results.
+2.3.5. Forgetting the initial instruction: Growing context can result in a fuzzy understanding of the initial instructions.
+2.3.6. Loss of KV-cache Information: Information can be lost when the KV cache is evicted from GPU memory.
+2.3.7. KV Cache Mismanagement: Inefficient handling of the Key-Value (KV) cache (e.g., inefficient cache allocation, no eviction policy, etc.) during inference can cause resource exhaustion, especially with long-context queries.
+
+2.4. Planning Failures
+2.4.1. Constraint Ignorance: Ignoring limits (time, budget, space).
+2.4.2. Infeasible / Impossible Action Planning: Planning steps that are logically or physically impossible given preconditions. 
+2.4.3. Inefficient and Suboptimal Planning: Planning suboptimal steps. 
+2.4.4. Repetitive Planning: Repetition of successfully completed actions. 
+2.4.5. Goals Misinterpretation: Misinterpreting the specified goals/tasks, and in result, wrong planning.
+2.4.6. Planning Despite Lack of Clarity: The description of the model’s next action is not clear enough.
+2.4.7. Poor Task Decomposition: Improperly breaking down goals, leading to duplication, conflict, or missed sub-tasks.
+2.4.8. Goals/Tasks Drift: The agent drifts away from the original objective. 
+2.5. Decision Making Errors
+2.5.1. Selection of Wrong Actions: The model choosing the wrong actions.
+2.5.2. Tool Selection Errors: Selecting to call wrong tools for certain tasks.
+2.5.3. Failure to Select from Multiple Tool Results: Fails to select appropriately from multiple choices returned by tools.
+2.5.4. Outcome Misinterpretation: Misinterpreting action results or feedback, resulting in wrong decisions.
+2.5.5. Progress Misassessment: Over- or under-estimating task completion.
+2.5.6. Cascading decision errors: Wrong decisions made based on prior errors.
+2.5.7. Failure to Ask for Clarification: Acting despite missing critical information.
+
+3. Action Execution Failures.
+Failures in tool usage, output and executing operations 
+
+3.1. Tool Usage Errors
+3.1.1. Tool Selection Error: Incorrect tool selection.
+3.1.2. Premature Tool Calls: Invoking a tool before gathering sufficient information. 
+3.1.3 Tool Calling Delay:  Invoking the tool too late. 
+3.1.4. Failure to Call Necessary Tools: Omitting a required tool invocation.
+3.1.5. Repeatedly Failing Tool Calling: The tool calling is failing repeatedly. 
+3.1.6. Malformed Tool Calls: Failure at the parsing stage due to syntactically invalid tool call formatting.
+3.1.7. Tool Invocation/Retrieval Failures: Internal retrieval or API call failures.
+3.1.8. Wrong tool sequencing: Incorrect tools sequencing.
+3.1.9. Ignoring Tools Output: Not considering the information gathered by the tool usage. 
+3.1.10. Unnecessary Tool Calls: Invoking a tool when not required.
+3.1.11. Wrong Tool Calling: Invoking a wrong tool, although correct tool was selected. 
+3.1.12. Ignoring Tool Calling Query: Not considering the information in the tool query. 
+3.1.13. Tool Calling not Recorded: Tool invocation occurs but is not logged or captured in the trace.
+3.1.14. Incorrect Tool Arguments: The tool call is parsed successfully, but the arguments or query are wrong.
+3.1.15. Hallucinated Tool Calls: Agent hallucinates a tool call or its outcome without actual invocation.
+3.1.16. Varying tool input query: The tool was invoked using varied input queries instead of the original query.
+
+3.2. Action Execution Failures
+3.2.1. Reasoning-Action / Planning-Action Disconnect: Actions not aligned with stated reasoning or plan.
+3.2.2. Format / Syntax Error: Produced invalid actions or plans that cannot be executed.
+3.2.3. Missing Actions: There are missing actions in the execution of the agentic system. 
+
+3.3. Output Generation Issues
+3.3.1. Response Formatting Error: Invalid, unparsable or syntactically incorrect outputs.
+3.3.2. Response Content Deviation: Off-topic or redundant outputs.
+3.3.3. Semantically Incorrect Response: The result deviated from the intended outcome. 
+
+4. Agent Coordination Failures.
+Failures in (multi-)agentic interaction and collaboration
+4.1. Communication Breakdowns
+4.1.1. Conversation Reset: Unexpected restarting of dialogue, losing context.
+4.1.2. Information Withholding: Failure to share important data with other agents.
+4.1.3. Fail to Ask for Clarification: Not requesting additional information when faced with ambiguity.
+4.1.4. Ignored Other Agent's Input: Disregarding input from collaborating agents.
+4.1.5. Lack of Resource Communication: Agents do not share low-level hardware information between each other, thus lack the knowledge of how much resources are consumed by or planned to be consumed by one agent. 
+
+4.2. Collaboration and Task Management
+4.2.1. Task / Goal Derailment: Deviation from intended objectives while collaborating on a shared task.
+4.2.2. Task Orchestration Failures: Poor task coordination and orchestration in collaborative settings.
+4.2.3. Improper /Wrong Task Alignment: Imprecise and wrong task alignment between the agents.
+4.2.4. Improper Task Decomposition: Wrong or imprecise task decomposition among agents can result in duplication or conflict from parallelization.
+4.2.5. Negative Impact of Shared Context: Intersection in task-specific context among agents influences the generation capabilities leading to more hallucinations.
+4.2.6. Multi-turn Interaction Failures: A breakdown of an ongoing conversation or process over multiple steps, where agents lose context, contradict previous statements, or fail to build coherently on prior exchanges.
+4.2.7. Cross-Agent Failures Propagation: An failure in one agent triggers or worsens failures in other connected agents, causing a cascading failures.
+
+4.3. Workflow Failures
+4.3.1. Lack of Workflow Specification: Complete absence of a defined procedural plan for how agents should coordinate and sequence their tasks.
+4.3.2. Incorrect Workflow Specification: The defined workflow plan contains logical errors, impossible sequences, or misrepresented steps that prevent successful execution.
+4.3.3. Failure to Follow the Specified Workflow / Workflow Orchestration Failure: Agents deviate from or ignore the established procedural plan, executing steps out of order or bypassing required stages.
+4.3.4. Unreasonable Dependency / Deadlock: Downstream steps depending on unavailable data or cyclic invocations causing infinite loops.
+4.3.5. Faulty Conditional Judgment: Incorrect branching decisions that misroute the workflow.
+4.3.6. Unreasonable Node / Agent Dependency: Downstream nodes depending on unavailable data.
+
+5. Infrastructure and Deployment Failures.
+Infrastructure-level failures
+
+5.1. Protocol Failures
+5.1.1. Protocol Schema Drift / Contract Mismatch: Request/response formats change (e.g., OpenAPI, gRPC, JSON schema) without coordinated rollout. 
+5.1.2. Protocol Versions Incompatibility: Client and server support incompatible protocol versions (e.g., HTTP/2 vs HTTP/1.1, etc).
+5.1.3. Timeout mismatch / duplicate actions: Client retries while server still processes.
+5.1.4. Authentication / Authorization Protocol Failure: E.g., Misconfigured Auth0 scopes.
+5.1.5. A2A failures – Role Semantic Mismatch: Agents disagree on role definitions, leading to a deadlock.
+5.1.6. A2A failures – Capability Advertisement Drift: An agent advertises outdated or incorrect capabilities (due to wrong cached metadata, partial registration, adversarial agent, etc).
+5.1.7. A2A failures – Out of Order Messages: OOM can cause invalid state transitions.
+5.1.8. A2A failures – State Desynchronization: One agent advances the shared task state while another stales.
+5.1.9. MCP failures – Context Boundary Violations: Context objects exceed size or depth constraints.
+5.1.10. MCP failures – Tool Schema Incompatibility: MCP tool definitions diverge between server and client.
+5.1.11. MCP failures - Implicit Context Assumptions: Model assumes presence of context elements that were not actually provided.
+
+5.2. Inference Service / Model Serving Layer Failures 
+5.2.1. Quota Exhaustion: Agents fail mid-plan due to token or request caps.
+5.2.2. Corrupt Weights: Inference service starts but produces degraded or wrong outputs.
+5.2.3. Resource Exhaustion (Latency / Out-Of-Memory errors): The storage usage rises significantly with the increasing number of tokens, resulting in GPU/CPU exhaustion and thus increased latency or OOM errors. This can manifest in crashes, degraded throughput or wrong and partial responses. 
+5.2.4. Burst Load Handling Failures: Inability to handle sudden, unexpected traffic spikes leads to latency increases and SLO (Service Level Objective) violations.
+5.2.5. Model Configuration Errors: Incorrect model configurations often lead to runtime errors (e.g., invalid parameter settings, header constraints in REST APIs, lack of tool support/parser for smaller models)
+5.2.6. Ambiguous Model Resolution: The system exhibits inconsistent behavior due to ambiguous model identifier resolution. When multiple model instances, builds, or configurations are referenced under the same logical name (e.g., `"Llama-3-8B"`, `"latest"`, or `"default"`), the runtime may resolve that identifier to different underlying model artifacts across executions.
+5.2.7. Inference Service Unavailable: The inference service is temporarily unavailable or unreachable, preventing the system from processing inference requests.
+5.2.8. Service Time-out Error: The inference request exceeds the maximum allowed processing time, causing the request to time out before a response is returned.
+5.2.9. Concurrency Limit Error (HTTP 429): The number of simultaneous inference requests exceeds the service's configured concurrency or rate limits, causing new requests to be rejected with an HTTP 429 ("Too Many Requests") response until capacity becomes available.
+5.2.10. Connection Error: A failure occurs while establishing or maintaining communication between the client and the inference service, preventing requests or responses from being successfully transmitted.
+
+5.3. Caching and Vector Database Failures 
+5.3.1. Index Corruption/Bias: Vector DB returns incomplete or biased nearest neighbors.
+5.3.2. Outdated Cache: Outdated embeddings or responses reused after model updates.
+5.3.3. Degradation Under Load: Increased cache misses, recall drops in Approximate Nearest Neighbor search.
+5.3.4. Wrong or Empty Retrieval: Vector DB failure returns wrong or empty results without error signaling.
+
+5.4. Kubernetes / Ray / Scheduling / Distribution Failures 
+5.4.1. Compute Resource Starvation Leading to Pod Eviction: Agent processes are evicted during execution as a result of insufficient CPU or memory availability.
+5.4.2. Ray Actor Restart: Resulting in loss of stored agent state.
+5.4.3. Scheduler Starvation: High-priority (batch) jobs block long-running agent workflows.
+5.4.4. Misconfigured Resource Requests:  GPU/CPU requests prevent pods from being scheduled.
+5.4.5. Distributed Execution Semantics Violation: Wrong implementation of the distributed execution.
+5.4.6. Distributed System Complexity: When serving requires distributing models across multiple GPUs or nodes, the complexity increases, leading to potential failures in synchronization and communication. 
+
+5.5. (Network) Communication Failures 
+5.5.1. Transient Packet Loss / Jitter: Causes timeouts that can be interpreted as tool failure.
+5.5.2. DNS Resolution Failures: Causes service discovery breaks.
+5.5.3. Load Balancer Issues: Requests pinned to unhealthy or busy replicas.
+5.5.4. TLS Handshake Failures: Failures at different stages of the TLS Handshake (e.g., server response, certificate validation stage, key exchange, etc.).
+
+5.6. Hardware and Execution Environment Failures
+5.6.1. GPU Memory Issues / Fragmentation: Resulting in unpredictable inference crashes.
+5.6.2. Heat-Triggered Performance Degradation: CPU/GPU heats up and slows down under sustained load.
+5.6.3. Hardware Heterogeneity Effects: Different CPU/GPU architectures cause numerical drift.
+5.6.4. Resource Imbalances: Mismatches between CPU, GPU compute power, and network bandwidth can create bottlenecks.
+
+6. Safety and Ethical Failures.
+Failures related to harm, risk, and responsible operation
+
+6.1. Harmful Content Generation
+6.1.1. Direct Harmful Content: Generating dangerous content without tool calls.
+6.1.2. Harmful Content via Tool Usage: Generating dangerous content with tool calls.
+
+6.2. Risk and Constraint Violations
+6.2.1. Ignoring Known Constraints: Disregarding permission requirements and constraints.
+6.2.2. Ignoring Implicit or Potential Risks: Overlooking potential dangers.
+6.2.3. Ignoring Known Tool Issues: Using problematic or unverified tools.
+
+6.3. Trust and Validation Failures
+6.3.1. Excessive Trust in Tools:  Uncritically accepting and using potentially incorrect or malicious tool results.
+6.3.2. Missing Outcome Validation: Lack of validation of the agents’ output. 
+
+7. User-induced Failures.
+Failures caused by incorrect, adversarial, ambiguous, or unrealistic user inputs.
+7.1. Ambiguous or Underspecified Inputs 
+7.1.1. Underspecified Task Definition: User provides insufficient constraints, leading to incorrect or incomplete execution.
+7.1.2. Wrong Tool Definition: The user specifies calls to wrong tools, or the tool was not defined correctly. 
+7.1.3. Assumptions Mismatch: The user assumes unstated context, that the agent does not possess. 
+7.1.4. Conflicting Instruction: The user provides conflicting instruction with incompatible constraints.
+7.1.5. Overloaded Multi-Objective Queries: User combines too many loosely related goals in a single interaction.  
+
+7.2. Adversarial or Manipulative Inputs
+7.2.1. Unrealistic and Infeasible Requests: User requests actions beyond system capabilities (e.g., access to unavailable tools or data).
+7.2.2. Prompt Injection: Malicious users manipulate agent behavior through crafted inputs that override system instructions/constraints or safety guardrails/policies. 
+7.2.3. Recursive or Infinite Task Traps: User constructs tasks that implicitly prevent termination.
+7.2.4. Attempts to Override Specification: User tries to redefine system roles or governance structure mid-execution.

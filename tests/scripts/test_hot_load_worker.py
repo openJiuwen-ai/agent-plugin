@@ -9,8 +9,21 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from types import ModuleType
+
+import pytest
 
 import hot_load_worker
+
+
+@pytest.fixture(autouse=True)
+def sdk_namespace_parents(monkeypatch):
+    """The worker normally runs after SDK import; these unit tests need no SDK."""
+    for name in ("openjiuwen", "openjiuwen.extensions"):
+        if name not in sys.modules:
+            module = ModuleType(name)
+            module.__path__ = []
+            monkeypatch.setitem(sys.modules, name, module)
 
 
 def _make_pkg(tmp_path: Path, name: str) -> Path:

@@ -18,6 +18,7 @@ JiuwenSwarm（九问蜂群）**官方 plugin 插件包集合仓**：对应 Hub �
 | 插件 | 版本 | 分类 | 能力组成 | 简介 |
 | --- | --- | --- | --- | --- |
 | [example-plugin](./plugins/example-plugin) | 1.0.0 | Engineering | 1 skill + 1 tool + 1 rail | 官方参考插件：用 skill 指导、tool 执行、rail 监听三类组件演示插件包的标准写法。 |
+| [observability-and-evaluation](./plugins/observability-and-evaluation) | 1.4.1 | Engineering | 1 tool + 2 rail | 按对话保存并合并执行轨迹，按需打开持久化本地评估界面，选择模型与参数后手动启动分析。 |
 | [web-to-markdown](./plugins/web-to-markdown) | 1.0.0 | Engineering | 1 skill + 1 tool | 把网页正文抓取并转换为结构化 Markdown 笔记，支持保存与二次编辑，适合知识整理与收藏归档。 |
 <!-- catalog:end -->
 

@@ -1,0 +1,29 @@
+[project]
+name = "openjiuwen-observability-and-evaluation"
+dynamic = ["version", "dependencies"]
+description = "OpenJiuwen trajectory observation and evaluation through Python APIs, Rails, a CLI, and a local UI."
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+file-helpers = ["pandas>=2,<4", "pyarrow>=25", "pypdf==6.20.1"]
+
+[project.scripts]
+ojw_evaluation = "ojw_evaluation.cli:main"
+ojw-evaluation-ui = "ojw_evaluation.server:main"
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata.hooks.custom]
+path = "hatch_build.py"
+
+[tool.hatch.build.hooks.custom]
+path = "hatch_build.py"
+
+[tool.hatch.build.targets.wheel]
+bypass-selection = true
+dev-mode-dirs = ["."]
+
+[tool.hatch.build.targets.sdist]
+only-include = ["pyproject.toml", "hatch_build.py", "editable_imports.py"]

@@ -1,0 +1,89 @@
+{
+  "version": "1.4.1",
+  "package_type": "plugin",
+  "id": "observability-and-evaluation",
+  "name": "observability-and-evaluation",
+  "description": "Record dialogue trajectories and open a persistent local evaluation UI on request.",
+  "display_name": {
+    "en": "Observability and Evaluation",
+    "zh": "可观测性与评估"
+  },
+  "display_description": {
+    "en": "Keep a combined trajectory for each dialogue and open its evaluation UI on request; analysis starts only with Run Evaluation.",
+    "zh": "按对话保存并合并执行轨迹，按需打开持久化本地评估界面，选择模型与参数后手动启动分析。"
+  },
+  "category": "Engineering",
+  "source": "local",
+  "default_init_input": {
+    "en": "/evaluate",
+    "zh": "/evaluate"
+  },
+  "tags": [
+    {
+      "en": "Observability",
+      "zh": "可观测性"
+    },
+    {
+      "en": "Evaluation",
+      "zh": "评估"
+    },
+    {
+      "en": "Local UI",
+      "zh": "本地界面"
+    }
+  ],
+  "quick_inputs": [
+    {
+      "en": "/evaluate",
+      "zh": "/evaluate"
+    },
+    {
+      "en": "Collect execution traces for later failure analysis.",
+      "zh": "请记录执行轨迹以便后续故障分析。"
+    },
+    {
+      "en": "Let me upload a trajectory and configure its evaluation.",
+      "zh": "让我上传轨迹并配置评估参数。"
+    }
+  ],
+  "rails": [
+    {
+      "file": "./rails/observability_rail.py",
+      "class": "ObservabilityRail",
+      "display_name": {
+        "en": "Execution observation",
+        "zh": "执行观测"
+      },
+      "display_description": {
+        "en": "Attach the existing observer to the inner agent, force non-streaming model calls, and save traces in the session workspace.",
+        "zh": "为内部智能体接入现有观测模块，强制模型使用非流式调用，并在工作区按会话保存轨迹。"
+      }
+    },
+    {
+      "file": "./rails/evaluation_rail.py",
+      "class": "EvaluationRail",
+      "display_name": {
+        "en": "Evaluation UI",
+        "zh": "评估界面"
+      },
+      "display_description": {
+        "en": "Track all recorded turns in one dialogue trajectory and preserve its UI metadata. Evaluation is manual.",
+        "zh": "将对话的全部已记录轮次合并为轨迹并保存界面元数据，评估由用户手动启动。"
+      }
+    }
+  ],
+  "tools": [
+    {
+      "file": "./tools/open_evaluation_tool.py",
+      "class": "OpenDialogueEvaluationTool",
+      "display_name": {
+        "en": "Open dialogue evaluation",
+        "zh": "打开对话评估"
+      },
+      "display_description": {
+        "en": "Return the current dialogue evaluation link without starting analysis.",
+        "zh": "返回当前对话的评估链接，由用户手动启动分析。"
+      }
+    }
+  ]
+}

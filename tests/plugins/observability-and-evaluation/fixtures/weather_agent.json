@@ -1,0 +1,390 @@
+{
+  "agent_metadata": {
+    "agent_name": "Weather_Reporter_Agent",
+    "agent_id": "agent_1",
+    "system_prompt": "You are Weather_Reporter_Agent.\n\n        Your role is to report current weather conditions using the\n        get_weather tool. Call the tool once for the city you were asked\n        about, read the result, and then write your short summary. Do not\n        call the tool more than once.",
+    "agent_timestamp_start": "2026-08-24T09:53:25.488989Z",
+    "agent_timestamp_end": "2026-08-24T09:53:32.743447Z",
+    "duration_seconds": 7.2545,
+    "tool_names": [
+      "get_weather"
+    ],
+    "tool_call_count": 1,
+    "tool_called": true,
+    "llm_call_count": 2,
+    "total_tokens": 938,
+    "input_tokens": 722,
+    "output_tokens": 216,
+    "status": "success"
+  },
+  "task": {
+    "step_id": "1",
+    "user_prompt": "\n        Report the current weather for the following city:\n        Berlin\n\n        Call the get_weather tool once for that city, then write one short\n        sentence summarizing its weather.\n        ",
+    "input_tokens": 722
+  },
+  "llm_request_1": {
+    "step_id": "2",
+    "model_name": "qwen3-32b",
+    "model_provider": "openrouter",
+    "timestamp_start": "2026-08-24T09:53:25.515083Z",
+    "timestamp_end": "2026-08-24T09:53:30.161302Z",
+    "duration_seconds": 4.6462,
+    "response_id": "gen-1787565207-k1bCF7cb9uNpzegct0Zy",
+    "tokens": {
+      "input": 266,
+      "output": 103,
+      "total": 369
+    },
+    "llm_call_post_condition": "tool_call",
+    "http_request": {
+      "http_url": "https://openrouter.ai/api/v1/",
+      "timestamp_start": "2026-08-24T09:53:25.515083Z",
+      "timestamp_end": "2026-08-24T09:53:30.161302Z",
+      "duration_seconds": 4.6462
+    }
+  },
+  "tool_execution_activity_1": {
+    "step_id": "3",
+    "tool_names": [
+      "get_weather"
+    ],
+    "tool_call_count": 1,
+    "tool_call_duration": {
+      "timestamp_start": "2026-08-24T09:53:30.164139Z",
+      "timestamp_end": "2026-08-24T09:53:30.167225Z",
+      "duration_seconds": 0.0031
+    },
+    "tool_calling": {
+      "step_id": "3.1",
+      "tool_call_request_count": 1,
+      "call_id": "call_8W9HWKOd3CVeRL3F496potvJ",
+      "tool_name": "get_weather",
+      "tool_arguments": {
+        "city": "Berlin"
+      },
+      "status": "success",
+      "tool_called": true,
+      "tool_success": true,
+      "tool_invocation_index": 1,
+      "http_attempt_count": 0,
+      "http_url": "",
+      "http_method": "",
+      "http_status_code": null
+    },
+    "tool_call_result": {
+      "step_id": "3.2",
+      "tool_call_result_count": 1,
+      "call_id": "call_8W9HWKOd3CVeRL3F496potvJ",
+      "tool_name": "get_weather",
+      "raw_output": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"city\": \"Berlin\",\n    \"condition\": \"cloudy\",\n    \"temp_c\": 14,\n    \"humidity_pct\": 78\n  },\n  \"error\": null,\n  \"metadata\": {\n    \"city\": \"Berlin\",\n    \"source\": \"mock_weather_table\"\n  }\n}",
+      "result_preview": "{\n  \"city\": \"Berlin\",\n  \"condition\": \"cloudy\",\n  \"temp_c\": 14,\n  \"humidity_pct\": 78\n}",
+      "error": null,
+      "parsed_output": {
+        "status": "success",
+        "data": {
+          "city": "Berlin",
+          "condition": "cloudy",
+          "temp_c": 14,
+          "humidity_pct": 78
+        },
+        "error": null,
+        "metadata": {
+          "city": "Berlin",
+          "source": "mock_weather_table"
+        }
+      },
+      "timestamp_start": "2026-08-24T09:53:30.164139Z",
+      "timestamp_end": "2026-08-24T09:53:30.167225Z",
+      "duration_seconds": 0.0031,
+      "http_attempts": []
+    },
+    "tool_llm_request": {
+      "step_id": "3.3",
+      "model_name": "qwen3-32b",
+      "model_provider": "openrouter",
+      "timestamp_start": "2026-08-24T09:53:30.176087Z",
+      "timestamp_end": "2026-08-24T09:53:32.740737Z",
+      "duration_seconds": 2.5646,
+      "response_id": "gen-1787565210-NEaeJVV9C0Gw5J2BzPAs",
+      "tokens": {
+        "input": 456,
+        "output": 113,
+        "total": 569
+      },
+      "llm_call_post_condition": "operation_completed",
+      "http_request": {
+        "http_url": "https://openrouter.ai/api/v1/",
+        "timestamp_start": "2026-08-24T09:53:30.176087Z",
+        "timestamp_end": "2026-08-24T09:53:32.740737Z",
+        "duration_seconds": 2.5646
+      }
+    }
+  },
+  "result": {
+    "step_id": "4",
+    "agent_output": "The current weather in Berlin is cloudy with a temperature of 14\u00b0C and 78% humidity.",
+    "output_tokens": 216
+  },
+  "OTel_traces": {
+    "step_id": "5",
+    "Traces_of_agent": "Weather_Reporter_Agent",
+    "Traces": [
+      {
+        "name": "invoke_agent Weather_Reporter_Agent",
+        "context": {
+          "trace_id": "0x1eec1b5ef8633b0c62455a02353e4fcc",
+          "span_id": "0xdfe4fc2e9dfd9d95",
+          "trace_state": "[]"
+        },
+        "kind": "SpanKind.CLIENT",
+        "parent_id": null,
+        "start_time": "2026-08-24T09:53:25.488989Z",
+        "end_time": "2026-08-24T09:53:32.743447Z",
+        "status": {
+          "status_code": "UNSET"
+        },
+        "attributes": {
+          "gen_ai.operation.name": "invoke_agent",
+          "gen_ai.system": "openjiuwen",
+          "gen_ai.agent.name": "Weather_Reporter_Agent",
+          "gen_ai.agent.id": "Weather_Reporter_Agent_run1",
+          "gen_ai.agent.description": "Reports current weather for a single city using the get_weather tool, calling it once.",
+          "gen_ai.completion.0.reasoning_content": "Okay, the user wants the current weather for Berlin. I need to use the get_weather tool. Let me check the function parameters. The function requires a city name, which is Berlin. I'll call the tool with that parameter. Once I get the data, I'll summarize it into a short sentence. Make sure not to call the tool more than once. Alright, let's proceed.\n",
+          "gen_ai.completion.1.reasoning_content": "Okay, I need to report the weather for Berlin. The tool response says it's cloudy with 14\u00b0C and 78% humidity. Let me make sure I include all those details. The user wants a short sentence, so I should keep it concise. Maybe start with the condition, then temperature and humidity. Check if the units are correct. Yep, Celsius and percent. Alright, put it all together clearly.\n"
+        },
+        "events": [],
+        "links": [],
+        "resource": {
+          "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.44.0",
+            "service.instance.id": "5603b4c7-cba1-4726-a076-121d796cda18",
+            "service.name": "openJiuwen"
+          },
+          "schema_url": ""
+        }
+      },
+      {
+        "name": "openai.chat",
+        "context": {
+          "trace_id": "0x1eec1b5ef8633b0c62455a02353e4fcc",
+          "span_id": "0x4cd0b6f029cd884c",
+          "trace_state": "[]"
+        },
+        "kind": "SpanKind.CLIENT",
+        "parent_id": "0xdfe4fc2e9dfd9d95",
+        "start_time": "2026-08-24T09:53:25.515083Z",
+        "end_time": "2026-08-24T09:53:30.161302Z",
+        "status": {
+          "status_code": "UNSET"
+        },
+        "attributes": {
+          "gen_ai.operation.name": "chat",
+          "gen_ai.provider.name": "openrouter",
+          "gen_ai.request.model": "qwen3-32b",
+          "gen_ai.request.temperature": 0.0,
+          "gen_ai.request.top_p": 1.0,
+          "gen_ai.is_streaming": false,
+          "gen_ai.openai.api_base": "https://openrouter.ai/api/v1/",
+          "gen_ai.input.messages": "[{\"role\": \"system\", \"parts\": [{\"type\": \"text\", \"content\": \"You are Weather_Reporter_Agent.\\n\\n        Your role is to report current weather conditions using the\\n        get_weather tool. Call the tool once for the city you were asked\\n        about, read the result, and then write your short summary. Do not\\n        call the tool more than once.\"}]}, {\"role\": \"user\", \"parts\": [{\"type\": \"text\", \"content\": \"\\n        Report the current weather for the following city:\\n        Berlin\\n\\n        Call the get_weather tool once for that city, then write one short\\n        sentence summarizing its weather.\\n        \"}]}]",
+          "gen_ai.tool.definitions": "[{\"type\": \"function\", \"name\": \"get_weather\", \"description\": \"Get the current weather for a given city.\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"city\"}}, \"additionalProperties\": false, \"title\": \"get weather\", \"required\": [\"city\"]}}]",
+          "gen_ai.response.model": "qwen3-32b",
+          "gen_ai.response.id": "gen-1787565207-k1bCF7cb9uNpzegct0Zy",
+          "gen_ai.response.finish_reasons": [
+            "tool_call"
+          ],
+          "gen_ai.usage.total_tokens": 369,
+          "gen_ai.usage.output_tokens": 103,
+          "gen_ai.usage.input_tokens": 266,
+          "gen_ai.usage.cache_read.input_tokens": 0,
+          "gen_ai.usage.reasoning_tokens": 89,
+          "gen_ai.output.messages": "[{\"role\": \"assistant\", \"parts\": [{\"content\": \"ool_call>\", \"type\": \"text\"}, {\"type\": \"tool_call\", \"name\": \"get_weather\", \"id\": \"call_8W9HWKOd3CVeRL3F496potvJ\", \"arguments\": {\"city\": \"Berlin\"}}], \"finish_reason\": \"tool_call\"}]",
+          "gen_ai.system": "openrouter",
+          "gen_ai.prompt.0.role": "system",
+          "gen_ai.prompt.0.content": "You are Weather_Reporter_Agent.\n\n        Your role is to report current weather conditions using the\n        get_weather tool. Call the tool once for the city you were asked\n        about, read the result, and then write your short summary. Do not\n        call the tool more than once.",
+          "gen_ai.prompt.1.role": "user",
+          "gen_ai.prompt.1.content": "\n        Report the current weather for the following city:\n        Berlin\n\n        Call the get_weather tool once for that city, then write one short\n        sentence summarizing its weather.\n        ",
+          "gen_ai.completion.0.role": "assistant",
+          "gen_ai.completion.0.content": "ool_call>",
+          "gen_ai.completion.0.tool_calls.0.id": "call_8W9HWKOd3CVeRL3F496potvJ",
+          "gen_ai.completion.0.tool_calls.0.name": "get_weather",
+          "gen_ai.completion.0.tool_calls.0.arguments": "{\"city\": \"Berlin\"}",
+          "gen_ai.completion.0.finish_reason": "tool_calls",
+          "gen_ai.request.tools": "[{\"type\": \"function\", \"name\": \"get_weather\", \"description\": \"Get the current weather for a given city.\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"city\"}}, \"additionalProperties\": false, \"title\": \"get weather\", \"required\": [\"city\"]}}]"
+        },
+        "events": [],
+        "links": [],
+        "resource": {
+          "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.44.0",
+            "service.instance.id": "5603b4c7-cba1-4726-a076-121d796cda18",
+            "service.name": "openJiuwen"
+          },
+          "schema_url": ""
+        }
+      },
+      {
+        "name": "POST",
+        "context": {
+          "trace_id": "0x1eec1b5ef8633b0c62455a02353e4fcc",
+          "span_id": "0x58191924129f70ff",
+          "trace_state": "[]"
+        },
+        "kind": "SpanKind.CLIENT",
+        "parent_id": "0x4cd0b6f029cd884c",
+        "start_time": "2026-08-24T09:53:25.525034Z",
+        "end_time": "2026-08-24T09:53:27.600950Z",
+        "status": {
+          "status_code": "UNSET"
+        },
+        "attributes": {
+          "http.method": "POST",
+          "http.url": "https://openrouter.ai/api/v1/chat/completions",
+          "http.status_code": 200
+        },
+        "events": [],
+        "links": [],
+        "resource": {
+          "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.44.0",
+            "service.instance.id": "5603b4c7-cba1-4726-a076-121d796cda18",
+            "service.name": "openJiuwen"
+          },
+          "schema_url": ""
+        }
+      },
+      {
+        "name": "execute_tool get_weather",
+        "context": {
+          "trace_id": "0x1eec1b5ef8633b0c62455a02353e4fcc",
+          "span_id": "0x67a12bfbd9c6b5e8",
+          "trace_state": "[]"
+        },
+        "kind": "SpanKind.INTERNAL",
+        "parent_id": "0xdfe4fc2e9dfd9d95",
+        "start_time": "2026-08-24T09:53:30.164139Z",
+        "end_time": "2026-08-24T09:53:30.167225Z",
+        "status": {
+          "status_code": "UNSET"
+        },
+        "attributes": {
+          "gen_ai.operation.name": "execute_tool",
+          "gen_ai.system": "openjiuwen",
+          "gen_ai.tool.name": "get_weather",
+          "gen_ai.tool.call.id": "call_8W9HWKOd3CVeRL3F496potvJ"
+        },
+        "events": [],
+        "links": [],
+        "resource": {
+          "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.44.0",
+            "service.instance.id": "5603b4c7-cba1-4726-a076-121d796cda18",
+            "service.name": "openJiuwen"
+          },
+          "schema_url": ""
+        }
+      },
+      {
+        "name": "openai.chat",
+        "context": {
+          "trace_id": "0x1eec1b5ef8633b0c62455a02353e4fcc",
+          "span_id": "0xb88acd64a1fe7069",
+          "trace_state": "[]"
+        },
+        "kind": "SpanKind.CLIENT",
+        "parent_id": "0xdfe4fc2e9dfd9d95",
+        "start_time": "2026-08-24T09:53:30.176087Z",
+        "end_time": "2026-08-24T09:53:32.740737Z",
+        "status": {
+          "status_code": "UNSET"
+        },
+        "attributes": {
+          "gen_ai.operation.name": "chat",
+          "gen_ai.provider.name": "openrouter",
+          "gen_ai.request.model": "qwen3-32b",
+          "gen_ai.request.temperature": 0.0,
+          "gen_ai.request.top_p": 1.0,
+          "gen_ai.is_streaming": false,
+          "gen_ai.openai.api_base": "https://openrouter.ai/api/v1/",
+          "gen_ai.input.messages": "[{\"role\": \"system\", \"parts\": [{\"type\": \"text\", \"content\": \"You are Weather_Reporter_Agent.\\n\\n        Your role is to report current weather conditions using the\\n        get_weather tool. Call the tool once for the city you were asked\\n        about, read the result, and then write your short summary. Do not\\n        call the tool more than once.\"}]}, {\"role\": \"user\", \"parts\": [{\"type\": \"text\", \"content\": \"\\n        Report the current weather for the following city:\\n        Berlin\\n\\n        Call the get_weather tool once for that city, then write one short\\n        sentence summarizing its weather.\\n        \"}]}, {\"role\": \"assistant\", \"parts\": [{\"content\": \"ool_call>\", \"type\": \"text\"}, {\"type\": \"tool_call\", \"name\": \"get_weather\", \"id\": \"call_8W9HWKOd3CVeRL3F496potvJ\", \"arguments\": {\"city\": \"Berlin\"}}]}, {\"role\": \"tool\", \"parts\": [{\"type\": \"tool_call_response\", \"id\": \"call_8W9HWKOd3CVeRL3F496potvJ\", \"response\": [{\"type\": \"text\", \"text\": \"{\\\"tool_called\\\": true, \\\"tool_success\\\": true, \\\"status\\\": \\\"success\\\", \\\"data\\\": {\\\"city\\\": \\\"Berlin\\\", \\\"condition\\\": \\\"cloudy\\\", \\\"temp_c\\\": 14, \\\"humidity_pct\\\": 78}, \\\"error\\\": null, \\\"metadata\\\": {\\\"city\\\": \\\"Berlin\\\", \\\"source\\\": \\\"mock_weather_table\\\"}}\", \"cache_control\": {\"type\": \"ephemeral\"}}]}]}]",
+          "gen_ai.tool.definitions": "[{\"type\": \"function\", \"name\": \"get_weather\", \"description\": \"Get the current weather for a given city.\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"city\"}}, \"additionalProperties\": false, \"title\": \"get weather\", \"required\": [\"city\"]}}]",
+          "gen_ai.response.model": "qwen3-32b",
+          "gen_ai.response.id": "gen-1787565210-NEaeJVV9C0Gw5J2BzPAs",
+          "gen_ai.response.finish_reasons": [
+            "stop"
+          ],
+          "gen_ai.usage.total_tokens": 569,
+          "gen_ai.usage.output_tokens": 113,
+          "gen_ai.usage.input_tokens": 456,
+          "gen_ai.usage.cache_read.input_tokens": 0,
+          "gen_ai.usage.reasoning_tokens": 95,
+          "gen_ai.output.messages": "[{\"role\": \"assistant\", \"parts\": [{\"content\": \"The current weather in Berlin is cloudy with a temperature of 14\\u00b0C and 78% humidity.\", \"type\": \"text\"}], \"finish_reason\": \"stop\"}]",
+          "gen_ai.system": "openrouter",
+          "gen_ai.prompt.0.role": "system",
+          "gen_ai.prompt.0.content": "You are Weather_Reporter_Agent.\n\n        Your role is to report current weather conditions using the\n        get_weather tool. Call the tool once for the city you were asked\n        about, read the result, and then write your short summary. Do not\n        call the tool more than once.",
+          "gen_ai.prompt.1.role": "user",
+          "gen_ai.prompt.1.content": "\n        Report the current weather for the following city:\n        Berlin\n\n        Call the get_weather tool once for that city, then write one short\n        sentence summarizing its weather.\n        ",
+          "gen_ai.prompt.2.role": "assistant",
+          "gen_ai.prompt.2.content": "ool_call>",
+          "gen_ai.prompt.3.role": "tool",
+          "gen_ai.prompt.3.content": "",
+          "gen_ai.completion.0.role": "assistant",
+          "gen_ai.completion.0.content": "The current weather in Berlin is cloudy with a temperature of 14\u00b0C and 78% humidity.",
+          "gen_ai.completion.0.finish_reason": "stop",
+          "gen_ai.request.tools": "[{\"type\": \"function\", \"name\": \"get_weather\", \"description\": \"Get the current weather for a given city.\", \"parameters\": {\"type\": \"object\", \"properties\": {\"city\": {\"type\": \"string\", \"description\": \"city\"}}, \"additionalProperties\": false, \"title\": \"get weather\", \"required\": [\"city\"]}}]"
+        },
+        "events": [],
+        "links": [],
+        "resource": {
+          "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.44.0",
+            "service.instance.id": "5603b4c7-cba1-4726-a076-121d796cda18",
+            "service.name": "openJiuwen"
+          },
+          "schema_url": ""
+        }
+      },
+      {
+        "name": "POST",
+        "context": {
+          "trace_id": "0x1eec1b5ef8633b0c62455a02353e4fcc",
+          "span_id": "0xa87d162ae329f353",
+          "trace_state": "[]"
+        },
+        "kind": "SpanKind.CLIENT",
+        "parent_id": "0xb88acd64a1fe7069",
+        "start_time": "2026-08-24T09:53:30.178883Z",
+        "end_time": "2026-08-24T09:53:30.310266Z",
+        "status": {
+          "status_code": "UNSET"
+        },
+        "attributes": {
+          "http.method": "POST",
+          "http.url": "https://openrouter.ai/api/v1/chat/completions",
+          "http.status_code": 200
+        },
+        "events": [],
+        "links": [],
+        "resource": {
+          "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.44.0",
+            "service.instance.id": "5603b4c7-cba1-4726-a076-121d796cda18",
+            "service.name": "openJiuwen"
+          },
+          "schema_url": ""
+        }
+      }
+    ]
+  }
+}

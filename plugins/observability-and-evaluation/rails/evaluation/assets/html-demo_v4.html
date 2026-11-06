@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenJiuwen Agentic Evaluation</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f4f6f9; --card: #fff; --border: #dfe5ed;
+    --text: #172b45; --muted: #53647a; --accent: #145cc5;
+    --soft: #eef4ff; --focus: #90b8f3;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+  /* One page width for both views, so nothing shifts when switching tabs. */
+  :root { --page-width: 1280px; }
+  main { max-width: var(--page-width); margin: 0 auto; padding: 44px 28px 64px; }
+  .page-header { max-width: var(--page-width); margin: 0 auto; padding: 40px 28px 24px; }
+  .eyebrow { color: var(--accent); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .13em; margin: 0 0 10px; }
+  h1 { margin: 0 0 12px; font-size: clamp(27px, 4vw, 38px); line-height: 1.18; letter-spacing: -.035em; font-weight: 650; }
+  .intro { margin: 0; max-width: none; color: var(--muted); font-size: 17px; }
+  #eval-connection { font-size: 12px; color: var(--muted); margin: 14px 0 0; overflow-wrap: anywhere; }
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 20px; overflow: hidden; }
+  .section-heading { display: flex; align-items: flex-start; gap: 14px; padding: 24px 28px 20px; border-bottom: 1px solid var(--border); }
+  .number { display: grid; place-items: center; flex: 0 0 30px; height: 30px; margin-top: 2px; border-radius: 9px; background: var(--soft); color: var(--accent); font-size: 14px; font-weight: 700; }
+  h2 { margin: 0; font-size: 21px; font-weight: 650; letter-spacing: -.02em; line-height: 1.4; }
+  .section-heading p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+  .section-body { padding: 24px 28px; }
+  h3 { font-size: 15px; margin: 0 0 4px; font-weight: 650; }
+  .help { color: var(--muted); font-size: 13px; margin: 0 0 16px; }
+  .grid-2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px 24px; }
+  .grid-2 > * { min-width: 0; }
+  label { display: block; font-size: 13px; font-weight: 600; }
+  input, select { display: block; width: 100%; min-width: 0; margin: 7px 0 0; padding: 11px 12px; border: 1px solid #cbd5e2; border-radius: 8px; background: #fff; color: var(--text); font: inherit; font-size: 14px; font-weight: 400; }
+  input::placeholder { color: #718097; }
+  input:disabled, select:disabled { background: #f4f6f9; color: var(--muted); }
+  :is(input, select, button, summary):focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+  input[type=file] { padding: 16px; border-style: dashed; background: #fafbfd; }
+  .input-summary { padding: 16px 18px; margin-top: 20px; background: #f6f8fc; border: 1px solid var(--border); border-radius: 10px; }
+  .input-summary p { margin: 4px 0; overflow-wrap: anywhere; }
+  #eval-input-info { font-size: 13px; }
+  #eval-current-context { font-weight: 600; font-size: 14px; }
+  #eval-dialogue-status { font-size: 13px; color: var(--muted); }
+  #eval-upload-panel { margin-top: 18px; }
+  .data-model-guide { margin-top: 20px; padding: 18px; border: 1px solid var(--border); border-radius: 10px; }
+  .data-model-guide p, .data-model-guide dl { font-size: 13px; }
+  .data-model-guide h4 { margin: 18px 0 6px; font-size: 13px; font-weight: 650; }
+  .data-model-guide p { margin: 8px 0; color: var(--muted); }
+  .data-model-guide code { font-size: 12px; overflow-wrap: anywhere; }
+  .data-model-guide details { margin-top: 12px; padding-top: 12px; }
+  .data-model-guide details[open] > summary { margin-bottom: 10px; }
+  .data-model-guide dl { margin: 0; }
+  .data-model-guide dt { font-weight: 600; }
+  .data-model-guide dd { margin: 2px 0 10px; color: var(--muted); }
+  .data-model-guide dd:last-child { margin-bottom: 0; }
+  .data-model-guide table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  .data-model-guide th, .data-model-guide td { padding: 10px 8px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+  .data-model-guide th { font-weight: 600; }
+  .data-model-guide tbody th { width: 28%; }
+  .data-model-guide td { color: var(--muted); }
+
+  #eval-view-trajectory { margin-top: 14px; }
+  #eval-trajectory-preview { margin-top: 12px; }
+  #eval-trajectory-preview-status { margin: 0 0 8px; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+  #eval-trajectory-json { margin: 0; padding: 16px; max-height: 420px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; background: #f6f8fc; border: 1px solid var(--border); border-radius: 8px; font: 12px/1.6 ui-monospace, Menlo, Consolas, monospace; }
+  #eval-trajectory-json:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+  .strategy-notes { margin: 0 0 20px; padding: 14px 18px; background: #f6f8fc; border-radius: 10px; font-size: 13px; }
+  .strategy-notes dt { font-weight: 650; }
+  .strategy-notes dd { margin: 3px 0 12px; color: var(--muted); }
+  .strategy-notes dd:last-child { margin-bottom: 0; }
+  .setting-group + .setting-group { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 24px; }
+  details { border-top: 1px solid var(--border); margin-top: 24px; padding-top: 16px; }
+  summary { cursor: pointer; font-size: 13px; font-weight: 600; }
+  details[open] summary { margin-bottom: 16px; }
+  #eval-parameter-note { margin: 14px 0 0; }
+  .run-area { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 22px 28px; background: #f8faff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 28px; }
+  .run-area > div { min-width: 0; }
+  .run-area h3 { font-size: 13px; }
+  #eval-output-preview { margin: 4px 0; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+  .run-area .help { margin: 8px 0 0; max-width: 560px; font-size: 12px; }
+  button { font: inherit; font-size: 13px; font-weight: 600; color: var(--text); background: #fff; border: 1px solid #cbd5e2; border-radius: 8px; padding: 10px 16px; cursor: pointer; }
+  button:hover { background: var(--soft); border-color: var(--accent); }
+  button.primary { flex-shrink: 0; background: var(--accent); border-color: var(--accent); color: #fff; padding: 12px 24px; font-size: 14px; }
+  button.primary:hover { background: #104ca4; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  .progress-panel { margin: -8px 0 24px; padding: 18px 22px; background: var(--soft); border: 1px solid #c5d9f6; border-radius: 12px; }
+  .progress-heading { display: flex; align-items: center; gap: 10px; color: var(--accent); }
+  #eval-progress-icon { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; }
+  #eval-progress-note { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+  #eval-progress { height: 6px; background: #d6e4f8; border-radius: 8px; overflow: hidden; margin-top: 14px; }
+  #eval-progress span { display: block; height: 100%; width: 35%; background: var(--accent); border-radius: inherit; animation: evaluation-progress 1.5s ease-in-out infinite; }
+  .progress-panel[data-state=completed] { background: #effaf4; border-color: #b9dfc9; }
+  .progress-panel[data-state=completed] .progress-heading { color: #176a3d; }
+  .progress-panel[data-state=completed] #eval-progress-icon,
+  .progress-panel[data-state=completed] #eval-progress span { background: #21834d; }
+  .progress-panel[data-state=completed] #eval-progress span { width: 100%; animation: none; }
+  .progress-panel:is([data-state=partial], [data-state=reconnecting]) { background: #fff8e9; border-color: #ead3a0; }
+  .progress-panel:is([data-state=partial], [data-state=reconnecting]) .progress-heading { color: #815500; }
+  .progress-panel:is([data-state=partial], [data-state=reconnecting]) #eval-progress-icon { background: #946400; }
+  .progress-panel:is([data-state=failed], [data-state=interrupted], [data-state=cancelled], [data-state=unavailable]) { background: #fff2f1; border-color: #eac1bd; }
+  .progress-panel:is([data-state=failed], [data-state=interrupted], [data-state=cancelled], [data-state=unavailable]) .progress-heading { color: #a62d25; }
+  .progress-panel:is([data-state=failed], [data-state=interrupted], [data-state=cancelled], [data-state=unavailable]) #eval-progress-icon { background: #a62d25; }
+  @keyframes evaluation-progress { from { transform: translateX(-110%); } to { transform: translateX(390%); } }
+  @media (prefers-reduced-motion: reduce) { #eval-progress span { animation: none; width: 100%; opacity: .5; } }
+  #eval-form-status { margin: -12px 0 24px; overflow-wrap: anywhere; }
+  #eval-form-status:empty, #eval-job-summary:empty { display: none; }
+  #eval-status { margin: 0 0 16px; overflow-wrap: anywhere; }
+  #eval-history-folder { margin-top: 16px; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: #f6f8fc; }
+  #eval-history-folder p { margin: 0 0 8px; font-size: 13px; }
+  #eval-folder-path { display: block; overflow-wrap: anywhere; white-space: pre-wrap; font-size: 12px; margin: 8px 0 12px; user-select: text; }
+  #eval-folder-feedback { color: var(--muted); margin-top: 8px !important; }
+  #eval-job-summary { font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+  #eval-result { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 420px; overflow: auto; background: #f6f8fc; padding: 16px; border-radius: 8px; }
+  /* Results visualization v3: run summary, invocation timeline, structure, detail */
+  #results-visualization-panel { --finding: #b83c38; --finding-soft: #fff3f2; }
+  .viz-source { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .viz-source:has(#viz-source:empty):has(#viz-source-switch[hidden]) { display: none; }
+  .viz-source p { margin: 0; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; flex: 1 1 320px; }
+  .viz-source button { padding: 6px 12px; font-size: 12px; }
+  #viz-status:empty { display: none; }
+  .run-summary { padding: 16px 18px; border: 1px solid var(--border); border-radius: 12px; background: #f8faff; }
+  .run-summary-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  #run-pattern { font-size: 17px; font-weight: 650; }
+  .run-summary-head details { border: 0; margin: 0; padding: 0; font-size: 12px; }
+  .run-summary-head details summary { color: var(--accent); font-weight: 600; font-size: 12px; }
+  .run-summary-head details[open] summary { margin-bottom: 6px; }
+  #run-notes-list { margin: 0; padding-left: 18px; color: var(--muted); font-size: 12px; }
+  #run-facts { display: flex; flex-wrap: wrap; gap: 8px 26px; margin: 10px 0 0; }
+  #run-facts .fact dt { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  #run-facts .fact dd { margin: 0; font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
+  .viz-block { margin-top: 24px; }
+  .viz-block-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .viz-block-head .help { margin: 2px 0 0; }
+  .segmented { display: inline-flex; border: 1px solid #cbd5e2; border-radius: 8px; overflow: hidden; }
+  .segmented button { border: 0; border-radius: 0; padding: 5px 12px; font-size: 12px; }
+  .segmented button + button { border-left: 1px solid #cbd5e2; }
+  .segmented button[aria-pressed=true] { background: var(--accent); color: #fff; }
+  #eval-visualization { margin-top: 24px; padding: 18px; border: 1px solid var(--border); border-radius: 12px; }
+  #eval-visual-settings { margin: 0; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+  #eval-overlay-note:empty { display: none; }
+  #eval-overlay-note { color: #815500; font-size: 13px; margin: 8px 0 0; }
+  .failure-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 14px 0 10px; }
+  .failure-metrics > div { padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; background: #f6f8fc; }
+  .failure-metrics strong { display: block; font-size: 24px; line-height: 1.3; }
+  .failure-metrics span { font-size: 12px; color: var(--muted); }
+  .overview-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 8px 28px; }
+  .overview-grid h3 { font-size: 13px; margin-top: 8px; }
+  #eval-category-chart { margin: 4px 0 0; }
+  .failure-category { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; width: 100%; font-size: 13px; font-weight: 400; margin: 2px 0; padding: 6px 8px; text-align: left; border-color: transparent; background: none; overflow-wrap: anywhere; }
+  .failure-category[aria-pressed=true] { background: var(--soft); border-color: var(--accent); }
+  .failure-category:disabled { opacity: 1; cursor: default; }
+  .failure-bar { grid-column: 1 / -1; background: #edf0f5; height: 7px; border-radius: 4px; overflow: hidden; display: block; }
+  .failure-bar span { display: block; height: 100%; border-radius: inherit; }
+  #eval-recurring { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { display: inline-flex; align-items: center; gap: 2px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 400; }
+  .chip strong { font-weight: 600; }
+  .chip[aria-pressed=true] { background: var(--soft); border-color: var(--accent); }
+  .chip.flagged { border-color: #e2b4b1; color: var(--finding); }
+  #viz-highlight { display: flex; align-items: center; gap: 10px; margin: 10px 0 0; font-size: 13px; }
+  #viz-highlight button { padding: 4px 10px; font-size: 12px; }
+  #structure-diagram { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: #fafcff; padding: 6px; }
+  #structure-diagram svg { display: block; width: 100%; margin: auto; }
+  #structure-diagram .edge { fill: none; stroke: #6785ad; stroke-width: 2; }
+  #structure-diagram .edge.idle { stroke: #b9c4d2; stroke-dasharray: 5 4; }
+  #structure-diagram .edge-head { fill: #6785ad; }
+  #structure-diagram .edge-label { fill: var(--muted); font-size: 12px; }
+  #structure-diagram .history-bus { fill: #eaf1fd; stroke: #90acd0; stroke-width: 1.5; }
+  #structure-diagram .history-label { fill: #36557f; font-size: 12px; font-weight: 650; letter-spacing: .02em; }
+  #structure-diagram .context-track { fill: #e8edf4; }
+  #structure-diagram .context-fill { fill: #6785ad; }
+  .structure-node .turn-badge { fill: #36557f; stroke: #fff; stroke-width: 2; }
+  .structure-node .turn-number { fill: #fff; font-size: 12px; font-weight: 700; pointer-events: none; }
+  .structure-node.context-source rect:first-of-type { fill: #eaf1fd; stroke: #6785ad; stroke-width: 2; }
+  .structure-node { cursor: pointer; outline: none; }
+  .structure-node rect:first-of-type { fill: #fff; stroke: #90acd0; stroke-width: 1.5; }
+  .structure-node.orchestrator rect { fill: #eaf1fd; }
+  .structure-node.idle rect:first-of-type { fill: #f4f6f9; stroke: #b9c4d2; stroke-dasharray: 5 4; }
+  .structure-node:is(:hover, :focus-visible, [aria-pressed=true]) rect:first-of-type { stroke: var(--accent); stroke-width: 3; }
+  .structure-node .node-title { fill: var(--text); font-size: 14px; font-weight: 650; }
+  .structure-node .node-sub { fill: var(--muted); font-size: 11px; }
+  .structure-node .node-sub.flagged { fill: var(--finding); font-weight: 600; }
+  #run-timeline { margin-top: 12px; gap: 10px; padding: 4px 4px 10px; }
+  #run-timeline[data-scale=equal] { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  #run-timeline[data-scale=duration] { display: flex; overflow-x: auto; }
+  #run-timeline[data-scale=duration] .lane { flex: 1 1 0; min-width: 160px; }
+  .lane { position: relative; min-width: 0; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--border); border-top: 4px solid var(--agent); border-radius: 10px; transition: opacity .15s; }
+  .lane.pseudo { border-top-style: dashed; background: #fafbfd; }
+  .lane[data-selected=true] { border-color: var(--accent); border-top-color: var(--agent); box-shadow: 0 0 0 3px var(--soft); }
+  .lane[data-dim=true] { opacity: .45; }
+  .lane-head { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; width: 100%; padding: 10px 12px 8px; text-align: left; border: 0; border-bottom: 1px solid var(--border); border-radius: 6px 6px 0 0; background: none; }
+  .lane-head[aria-pressed=true] { background: var(--soft); }
+  .lane-title { display: flex; align-items: center; gap: 8px; width: 100%; font-size: 14px; overflow-wrap: anywhere; }
+  .lane-title strong { flex: 1; min-width: 0; }
+  .lane-number { flex: 0 0 auto; display: grid; place-items: center; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 6px; background: var(--agent); color: #fff; font-size: 12px; font-weight: 700; }
+  .lane.pseudo .lane-number { background: #94a3b8; }
+  .finding-badge { flex: 0 0 auto; min-width: 22px; padding: 1px 7px; border-radius: 999px; background: var(--finding); color: #fff; font-size: 12px; font-weight: 700; text-align: center; }
+  .lane-attempt { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; }
+  .lane-meta { font-size: 12px; font-weight: 400; color: var(--muted); }
+  .lane-status { font-size: 12px; font-weight: 600; color: #a62d25; }
+  .lane-tools { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+  .tool-chip { font-size: 11px; font-weight: 500; padding: 1px 7px; border-radius: 999px; background: #eef1f6; color: var(--muted); font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .lane-steps { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 4px 10px; padding: 10px 10px 8px; }
+  .step-group { display: inline-flex; align-items: flex-end; gap: 1px; }
+  .step-group:has(> :nth-child(2)) { padding: 0 3px 0 0; border-bottom: 2px solid #e3e8ef; }
+  .step-marker { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; min-width: 26px; padding: 3px 2px; border: 0; border-radius: 6px; background: none; transition: opacity .15s; }
+  .step-marker:hover { background: var(--soft); }
+  .step-marker[aria-pressed=true] { background: var(--soft); outline: 2px solid var(--accent); outline-offset: 0; }
+  .step-marker[data-dim=true] { opacity: .25; }
+  .step-marker .shape { width: 12px; height: 12px; background: #8a9bb2; border: 2px solid #8a9bb2; border-radius: 50%; }
+  .step-marker[data-kind=input] .shape, .step-marker[data-kind=output] .shape { background: #fff; border-color: #6b7c93; }
+  .step-marker[data-kind=output] .shape { border-radius: 2px; }
+  .step-marker:is([data-kind=tool], [data-kind=tool-request], [data-kind=tool-result]) .shape { border-radius: 2px; background: #6f8fb8; border-color: #6f8fb8; }
+  .step-marker[data-kind=reflection] .shape { border-radius: 1px; transform: rotate(45deg) scale(.85); background: #9c7fb8; border-color: #9c7fb8; }
+  .step-marker[data-kind=telemetry] .shape { width: 10px; height: 10px; background: #fff; border: 2px dotted #9aa8ba; }
+  .step-marker[data-nested=true] .shape { width: 8px; height: 8px; }
+  .step-marker[data-flagged=true] .shape { background: var(--finding); border-color: var(--finding); box-shadow: 0 0 0 3px #f6d4d2; }
+  .step-marker .step-id { font: 10px/1.2 ui-monospace, Menlo, Consolas, monospace; color: var(--muted); font-weight: 400; }
+  .step-marker[data-flagged=true] .step-id { color: var(--finding); font-weight: 700; }
+  .step-marker[data-nested=true] .step-id { font-size: 9px; }
+  .viz-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 6px 0 0; font-size: 12px; color: var(--muted); }
+  .viz-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .viz-legend .step-marker { min-width: 0; padding: 0; pointer-events: none; }
+  #viz-unmatched { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; font-size: 12px; color: #815500; }
+  #viz-unmatched:empty { display: none; }
+  #run-detail { margin-top: 18px; padding: 18px 20px; background: #f6f8fc; border-radius: 12px; font-size: 13px; overflow-wrap: anywhere; }
+  .detail-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding-left: 12px; border-left: 4px solid var(--agent, var(--accent)); }
+  .detail-head h3 { font-size: 17px; margin: 0; }
+  .detail-sub { margin: 0; color: var(--muted); font-size: 12px; }
+  .detail-nav { margin-left: auto; display: flex; gap: 6px; }
+  .detail-nav button { padding: 4px 10px; font-size: 12px; }
+  .detail-facts { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 14px 0 4px; }
+  .detail-facts dt { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .detail-facts dd { margin: 0; font-weight: 600; }
+  .detail-flagged { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 12px 0 0; }
+  .detail-text, .detail-json { margin-top: 12px; padding-top: 0; border-top: 0; }
+  .detail-text summary, .detail-json summary { margin-bottom: 6px; }
+  .detail-text[open] summary, .detail-json[open] summary { margin-bottom: 6px; }
+  .detail-text pre, .detail-json pre { margin: 0; padding: 12px 14px; max-height: 260px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; background: #fff; border: 1px solid var(--border); border-radius: 8px; font: 12px/1.6 ui-monospace, Menlo, Consolas, monospace; }
+  .detail-json pre { max-height: 420px; }
+  .json-pointer { display: block; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .detail-findings { margin-top: 14px; }
+  .detail-findings h4 { margin: 0; font-size: 13px; color: var(--finding); }
+  .badge { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+  .badge.ok { background: #e3f4ea; color: #176a3d; }
+  .badge.fail { background: #fbe3e1; color: #a62d25; }
+  .ambiguous-tag { margin-left: 8px; padding: 1px 8px; border-radius: 999px; background: #fff3d6; color: #815500; font-size: 11px; font-weight: 600; vertical-align: middle; }
+  .failure-card { margin-top: 10px; padding: 14px 16px; background: #fff; border: 1px solid var(--border); border-left-width: 4px; border-radius: 8px; overflow-wrap: anywhere; }
+  .failure-card h4 { margin: 0; font-size: 14px; color: var(--text); }
+  .failure-card h5 { margin: 12px 0 4px; font-size: 12px; }
+  .failure-meta { color: var(--muted); font-size: 12px; margin: 4px 0; }
+  .failure-text { white-space: pre-wrap; font-size: 13px; margin: 0; max-height: 300px; overflow: auto; }
+  .failure-warning { color: #815500; font-size: 13px; }
+  @media (max-width: 760px) { .overview-grid { grid-template-columns: minmax(0, 1fr); } .detail-nav { margin-left: 0; } }
+  @media (prefers-reduced-motion: reduce) { .lane, .step-marker { transition: none; } }
+  /* Taxonomy: tree overview, failure-card position, reference panel */
+  .code, .code-badge { font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .taxonomy-line { display: flex; align-items: flex-start; gap: 4px; }
+  .taxonomy-line[data-depth="1"] { padding-left: 26px; }
+  .taxonomy-line[data-depth="2"] { padding-left: 50px; }
+  .taxonomy-line .taxonomy-row { flex: 1; min-width: 0; }
+  .taxonomy-expander { flex: 0 0 22px; height: 22px; margin-top: 6px; padding: 0; border: 0; background: none; font-size: 13px; color: var(--muted); }
+  .taxonomy-expander:disabled { visibility: hidden; }
+  .taxonomy-row[data-empty=true] { color: var(--muted); }
+  .taxonomy-row[data-empty=true] strong { font-weight: 400; font-size: 12px; }
+  .taxonomy-row[data-depth="0"] .taxonomy-name > span:nth-child(2) { font-weight: 600; }
+  .taxonomy-row[data-depth="2"] { font-size: 12px; }
+  .taxonomy-name { display: inline-flex; align-items: baseline; gap: 8px; min-width: 0; }
+  .taxonomy-name .code { font-size: 12px; color: var(--muted); flex-shrink: 0; }
+  .level-tag { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+  #eval-recurring { display: flex; flex-direction: column; gap: 2px; }
+  .recurring-item { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: baseline; gap: 8px; width: 100%; padding: 5px 8px; text-align: left; font-size: 13px; font-weight: 400; border-color: transparent; background: none; }
+  .recurring-item:hover { background: var(--soft); }
+  .recurring-item[aria-pressed=true] { background: var(--soft); border-color: var(--accent); }
+  .recurring-item:disabled { opacity: 1; cursor: default; }
+  .recurring-item .code { font-size: 12px; color: var(--muted); }
+  .recurring-name { font-weight: 600; overflow-wrap: anywhere; }
+  .recurring-count { font-size: 12px; color: var(--finding); font-weight: 600; white-space: nowrap; }
+  .recurring-more { align-self: flex-start; margin-top: 4px; padding: 4px 10px; font-size: 12px; }
+  #eval-taxonomy-link { display: inline-block; margin: 0 0 6px; }
+  .chip .code { font-size: 11px; color: var(--muted); margin-right: 6px; }
+  .failure-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+  .failure-head h4 { margin: 0; }
+  .code-badge { font-size: 12px; font-weight: 700; padding: 1px 7px; border-radius: 6px; background: #eef1f6; color: var(--text); }
+  .failure-definition { margin: 6px 0 0; font-size: 13px; color: var(--text); font-style: italic; }
+  .taxonomy-path { list-style: none; margin: 10px 0 2px; padding: 8px 12px; background: #f6f8fc; border-radius: 8px; font-size: 12px; }
+  .taxonomy-path li { display: grid; grid-template-columns: 96px minmax(0, 1fr); column-gap: 10px; align-items: baseline; }
+  .taxonomy-path li + li { margin-top: 6px; }
+  .taxonomy-entry { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+  .taxonomy-entry .code { color: var(--muted); }
+  .taxonomy-desc { grid-column: 2; color: var(--muted); }
+  #help-taxonomy-tree { font-size: 13px; }
+  .taxonomy-ref-group { border: 0; margin: 0; padding: 0; }
+  .taxonomy-ref-group > summary { margin: 0; padding: 6px 0; }
+  .taxonomy-ref-group.depth-0 { border-top: 1px solid var(--border); }
+  .taxonomy-ref-group.depth-1, .taxonomy-ref-leaf { margin-left: 18px; }
+  .taxonomy-ref-group[open] > summary { margin-bottom: 0; }
+  .taxonomy-ref-head { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+  .taxonomy-ref-head .code { font-size: 12px; color: var(--muted); }
+  .taxonomy-ref-group.depth-0 > summary .taxonomy-ref-name { font-weight: 650; }
+  .taxonomy-ref-desc { margin: 0 0 6px 18px; color: var(--muted); font-size: 12px; }
+  .taxonomy-ref-leaf { padding: 4px 8px; border-radius: 6px; }
+  .taxonomy-ref-leaf .taxonomy-ref-desc { margin-left: 0; }
+  .taxonomy-ref-leaf.reported { background: var(--finding-soft, #fff3f2); }
+  .reported-tag { font-size: 11px; font-weight: 700; color: var(--finding, #b83c38); }
+  /* v4 step 3: compact setup in two columns, help in a side panel, run bar at the bottom */
+  @media (min-width: 1000px) {
+    #eval-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 20px; align-items: start; }
+  }
+  .card-actions { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 16px 0 12px; }
+  .help-link { color: var(--accent); font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .help-link:hover { text-decoration: underline; }
+  .help-link:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+  .run-area { position: sticky; bottom: 12px; z-index: 15; margin: 8px 0 0; box-shadow: 0 6px 24px rgba(23, 43, 69, .12); background: #fff; }
+  .progress-panel { margin: 0 0 16px; }
+  #eval-form-status { margin: 0 0 12px; }
+  #help-backdrop { position: fixed; inset: 0; z-index: 40; background: rgba(23, 43, 69, .28); }
+  #help-drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 41; width: min(560px, 100vw); display: flex; flex-direction: column; background: var(--card); box-shadow: -8px 0 32px rgba(23, 43, 69, .18); }
+  .drawer-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 22px; border-bottom: 1px solid var(--border); }
+  .drawer-head h2 { font-size: 18px; }
+  .drawer-head button { padding: 4px 10px; }
+  .drawer-body { overflow: auto; padding: 18px 22px 40px; overscroll-behavior: contain; }
+  /* The section heading is shown as the panel title instead. */
+  .drawer-body > section > h3:first-child { display: none; }
+  .drawer-body .data-model-guide { margin-top: 0; padding: 0; border: 0; }
+  body.drawer-open { overflow: hidden; }
+  /* v4 step 2: Review uses the window width; the detail panel docks on the right */
+  .review-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 24px; }
+  .review-main { min-width: 0; }
+  /* Sticky positioning needs every ancestor to allow overflow. */
+  #results-visualization-panel { overflow: visible; }
+  #eval-overview { border: 0; margin: 0; padding: 0; }
+  #eval-overview > summary { font-size: 15px; font-weight: 650; }
+  #eval-overview[open] > summary { margin-bottom: 8px; }
+  #eval-overview-count { margin-left: 8px; font-weight: 600; font-size: 13px; color: var(--finding); }
+  #viz-highlight:not([hidden]) { padding-top: 10px; }
+  @media (min-width: 1100px) {
+    .review-grid { grid-template-columns: minmax(0, 1.65fr) minmax(380px, 1fr); align-items: start; }
+    .review-detail { position: sticky; top: calc(var(--header-h, 120px) + 12px); margin-top: 24px; }
+    .review-detail #run-detail { margin-top: 0; max-height: calc(100vh - var(--header-h, 120px) - 36px); overflow: auto; overscroll-behavior: contain; border: 1px solid var(--border); }
+  }
+  /* v4 app shell: sticky header with view tabs and the current context */
+  html { scroll-padding-top: 170px; }
+  /* Navigation on the page background, styled like the sub-navigation of initial_demo.html */
+  .app-header { position: sticky; top: 0; z-index: 20; background: rgba(244, 246, 249, .88); backdrop-filter: saturate(180%) blur(16px); -webkit-backdrop-filter: saturate(180%) blur(16px); border-bottom: 1px solid var(--border); }
+  .app-bar, .context-bar { max-width: var(--page-width); margin: 0 auto; padding: 0 28px; display: flex; align-items: center; gap: 16px 24px; flex-wrap: wrap; }
+  .app-bar { display: grid; grid-template-columns: 1fr auto 1fr; min-height: 48px; padding-top: 6px; }
+  .tabs { grid-column: 2; display: flex; justify-content: center; gap: 28px; }
+  .tabs [role=tab] { border: 0; border-radius: 0; background: none; padding: 6px 2px; font-size: 15px; font-weight: 500; color: var(--muted); border-bottom: 2px solid transparent; }
+  .tabs [role=tab]:hover { color: var(--text); background: none; }
+  .tabs [role=tab][aria-selected=true] { color: var(--text); font-weight: 600; border-bottom-color: var(--text); }
+  .tabs [role=tab] .k { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11px; font-weight: 400; color: var(--muted); margin-right: 6px; }
+  #run-pill { grid-column: 3; justify-self: end; }
+  .status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px; font-size: 12px; background: var(--soft); border-color: #c5d9f6; color: var(--accent); }
+  .status-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .status-pill:is([data-state=running], [data-state=starting], [data-state=loading]) .dot { animation: pill-pulse 1.2s ease-in-out infinite; }
+  .status-pill[data-state=completed] { background: #effaf4; border-color: #b9dfc9; color: #176a3d; }
+  .status-pill:is([data-state=partial], [data-state=reconnecting]) { background: #fff8e9; border-color: #ead3a0; color: #815500; }
+  .status-pill:is([data-state=failed], [data-state=interrupted], [data-state=cancelled], [data-state=unavailable]) { background: #fff2f1; border-color: #eac1bd; color: #a62d25; }
+  @keyframes pill-pulse { 50% { opacity: .3; } }
+  @media (prefers-reduced-motion: reduce) { .status-pill .dot { animation: none !important; } }
+  .context-bar { padding-top: 6px; padding-bottom: 10px; font-size: 13px; }
+  .context-item { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .context-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; flex-shrink: 0; }
+  .context-bar { gap: 6px 24px; }
+  .context-trajectory { flex: 1 1 100%; align-items: baseline; }
+  .context-value { font: 600 12px/1.5 ui-monospace, Menlo, Consolas, monospace; overflow-wrap: anywhere; min-width: 0; }
+  /* The picker takes its own row and grows to fit the longest entry. */
+  .context-evaluation { flex: 1 1 100%; }
+  .context-evaluation select { margin: 0; padding: 6px 10px; font-size: 13px; width: auto; min-width: 0; max-width: 100%; }
+  .context-evaluation button { flex-shrink: 0; padding: 6px 10px; }
+  main { padding-top: 24px; }
+  .result-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .result-actions:has(> :not([hidden])) { margin-bottom: 16px; }
+  #view-review[data-empty=true] > .card:not(.empty-state) { display: none; }
+  .empty-state { padding: 36px 28px; text-align: center; color: var(--muted); }
+  .empty-state h2 { color: var(--text); margin-bottom: 6px; }
+  .empty-state button { margin-top: 14px; }
+  @media (max-width: 640px) {
+    .app-bar, .context-bar { padding: 0 14px; }
+    .context-bar { padding-top: 8px; padding-bottom: 10px; }
+    .context-evaluation { margin-left: 0; flex: 1 1 100%; }
+    .page-header { padding: 28px 14px 18px; }
+    /* On small screens the header scrolls away instead of covering a fifth of the view. */
+    .app-header { position: static; }
+    html { scroll-padding-top: 0; }
+  }
+  @media (max-width: 640px) {
+    .failure-metrics { grid-template-columns: 1fr; }
+    #run-timeline[data-scale=equal] { grid-template-columns: minmax(0, 1fr); }
+    main { padding: 28px 14px 40px; }
+    .section-heading, .section-body { padding: 20px; }
+    .grid-2 { grid-template-columns: minmax(0, 1fr); }
+    .run-area { flex-direction: column; align-items: stretch; padding: 20px; position: static; }
+    .history-row { align-items: stretch; flex-direction: column; }
+  }
+
+</style>
+</head>
+<body>
+<header class="page-header">
+  <p class="eyebrow">Understand where an agent run went wrong</p>
+  <h1>OpenJiuwen Agentic Evaluation</h1>
+  <p class="intro">Evaluate agentic behavior step by step, beyond the final answer. OpenJiuwen runs evaluation modules over structured agentic trajectories. The failure detector uses an LLM as a judge to detect and localize failures within the recorded steps. With taxonomy-guided evaluation, the judge also uses expert knowledge of failure types and categories to guide detection.</p>
+  <p id="eval-connection" role="status"></p>
+</header>
+<div class="app-header">
+  <div class="app-bar">
+    <nav class="tabs" role="tablist" aria-label="Views">
+      <button type="button" role="tab" id="tab-setup" data-view="setup" aria-controls="view-setup" aria-selected="true"><span class="k" aria-hidden="true">1</span>Set up &amp; run</button>
+      <button type="button" role="tab" id="tab-review" data-view="review" aria-controls="view-review" aria-selected="false" tabindex="-1"><span class="k" aria-hidden="true">2</span>Review</button>
+    </nav>
+    <button type="button" id="run-pill" class="status-pill" hidden aria-live="polite"><span class="dot" aria-hidden="true"></span><span id="run-pill-text"></span></button>
+  </div>
+  <div class="context-bar">
+    <div class="context-item context-trajectory"><span class="context-label">Trajectory</span><span id="ctx-trajectory" class="context-value">None selected</span></div>
+    <div class="context-item context-evaluation">
+      <label for="eval-history" class="context-label">Saved evaluations</label>
+      <select id="eval-history"><option value="">No saved evaluations yet</option></select>
+      <button id="eval-history-refresh" type="button" title="Refresh evaluation history" aria-label="Refresh evaluation history">↻</button>
+    </div>
+  </div>
+</div>
+<main>
+  <section id="view-setup" class="view" role="tabpanel" aria-labelledby="tab-setup">
+  <form id="evaluation-form">
+    <fieldset id="eval-fields">
+      <section class="card" aria-labelledby="trajectory-heading">
+        <div class="section-heading"><span class="number" aria-hidden="true">1</span><div>
+          <h2 id="trajectory-heading">Trajectory</h2>
+          <p>Choose a recorded workflow or dialogue. Its normalized trajectory is the shared record used for evaluation.</p>
+        </div></div>
+        <div class="section-body">
+          <div class="grid-2">
+            <label>Input source<select id="eval-input-source"><option value="server">WorkSwarm dialogue</option><option value="upload">Upload from computer</option></select></label>
+            <label id="eval-dialogues-label">Saved dialogue<select id="eval-dialogues"></select></label>
+          </div>
+          <div id="eval-upload-panel" hidden><label>Trajectory JSON · up to 10 MiB<input id="eval-trajectory" type="file" accept=".json,application/json"></label></div>
+          <div class="input-summary">
+            <p id="eval-current-context"></p>
+            <p id="eval-dialogue-status" role="status" hidden></p>
+            <p id="eval-input-info" role="status">Choose a trajectory to check its format and steps.</p>
+          </div>
+          <div class="card-actions">
+            <a class="help-link" href="#help-data-model" data-help="help-data-model">ⓘ About the trajectory data model</a>
+          </div>
+          <button id="eval-view-trajectory" type="button" aria-expanded="false" aria-controls="eval-trajectory-preview" disabled>View trajectory</button>
+          <div id="eval-trajectory-preview" hidden>
+            <p id="eval-trajectory-preview-status" role="status" aria-live="polite"></p>
+            <pre id="eval-trajectory-json" tabindex="0" aria-label="Trajectory JSON" hidden></pre>
+          </div>
+        </div>
+      </section>
+      <section class="card" aria-labelledby="settings-heading">
+        <div class="section-heading"><span class="number" aria-hidden="true">2</span><div>
+          <h2 id="settings-heading">Evaluation settings</h2>
+          <p>Choose how to detect failures and which model will review the trajectory.</p>
+        </div></div>
+        <div class="section-body">
+          <div class="setting-group">
+            <h3>Failure detection method</h3>
+            <p class="help" id="method-help">Both strategies evaluate the selected trajectory. Choose whether to provide expert failure knowledge through a taxonomy. <a class="help-link" href="#help-methods" data-help="help-methods">ⓘ How the methods differ</a></p>
+            <div class="grid-2">
+              <label>Method<select name="strategy" aria-describedby="method-help strategy-explanation"><option value="taxonomy-guided">Taxonomy-guided</option><option value="zero-shot">Zero-shot</option></select></label>
+              <label>Failure taxonomy<select name="taxonomy"><option value="ours">RAMS failures taxonomy</option><option value="mast">MAST failures taxonomy</option></select></label>
+            </div>
+          </div>
+          <div class="setting-group">
+            <h3>Evaluator model</h3>
+            <p class="help">This model acts as the judge. It reviews the recorded trajectory without rerunning your agents.</p>
+            <div class="grid-2">
+              <label>Provider<select name="client" id="eval-provider"><option value="openai">OpenAI</option><option value="openrouter">OpenRouter</option><option value="mlops">MLOps</option></select></label>
+              <label>Model ID<input name="model" id="eval-model" type="text" required></label>
+              <label>API key<input name="api_key" type="password" required autocomplete="off" placeholder="Used for this evaluation only" aria-describedby="key-help"></label>
+              <label>API endpoint<input name="base_url" id="eval-base-url" type="url" required></label>
+            </div>
+            <p class="help" id="key-help" style="margin:12px 0 0">Your API key is used in memory for this evaluation and is not saved.</p>
+          </div>
+          <details><summary>Advanced settings</summary>
+            <p class="help">Adjust duplicate findings and model sampling. Leave sampling blank to use model defaults.</p>
+            <div class="grid-2">
+              <label>Deduplicate findings<select name="dedup"><option value="none">Keep all findings</option><option value="exact">Remove exact duplicates</option><option value="by_code">Group by failure code</option></select></label>
+              <label>Temperature<input name="temperature" type="number" min="0" max="2" step="any" placeholder="Model default"></label>
+              <label>Top P<input name="top_p" type="number" min="0" max="1" step="any" placeholder="Model default"></label>
+            </div>
+          </details>
+          <p id="eval-parameter-note" class="help"></p>
+        </div>
+      </section>
+    </fieldset>
+    <div id="eval-progress-panel" class="progress-panel" hidden>
+      <div class="progress-heading" role="status" aria-live="polite" aria-atomic="true">
+        <span id="eval-progress-icon" aria-hidden="true"></span>
+        <strong id="eval-progress-title"></strong>
+      </div>
+      <div id="eval-progress" role="progressbar" aria-label="Evaluation progress" aria-valuemin="0" aria-valuemax="100"><span></span></div>
+      <p id="eval-progress-note"></p>
+    </div>
+    <p id="eval-form-status" role="status" aria-live="polite"></p>
+    <div class="run-area">
+      <div><h3>Results will be saved to</h3>
+        <p id="eval-output-preview" role="status">Select an input to see the result folder.</p>
+        <p class="help">Running evaluation sends the selected trajectory to your chosen model provider.</p>
+      </div>
+      <button class="primary" id="eval-run" type="submit" disabled>Run evaluation</button>
+    </div>
+  </form>
+  </section>
+  <section id="view-review" class="view" role="tabpanel" aria-labelledby="tab-review" hidden>
+  <section class="card" id="eval-card" aria-labelledby="results-heading">
+    <div class="section-heading"><div>
+      <h2 id="results-heading">Evaluation</h2>
+      <p>Status, saved files, and raw output of the evaluation selected in the header.</p>
+    </div></div>
+    <div class="section-body">
+      <p id="eval-status" role="status" aria-live="polite">No evaluation selected. Start one in “Set up &amp; run” or choose one under “Saved evaluations” in the header.</p>
+      <div class="result-actions">
+        <button id="eval-reconnect" type="button" hidden>Reconnect</button>
+        <button id="eval-download" type="button" hidden>Download failure_detector_results.json</button>
+      </div>
+      <div id="eval-history-folder" hidden>
+        <p><strong>Saved evaluation folder</strong></p>
+        <code id="eval-folder-path"></code>
+        <button id="eval-copy-folder" type="button">Copy folder path</button>
+        <p id="eval-folder-feedback" role="status" aria-live="polite"></p>
+      </div>
+      <details><summary>Detected Failures · JSON</summary><pre id="eval-result"></pre></details>
+      <details><summary>Evaluation details</summary><p id="eval-job-summary"></p></details>
+    </div>
+  </section>
+  <section class="card visualization-panel" id="results-visualization-panel" aria-labelledby="viz-heading">
+    <div class="section-heading">
+      <div><h2 id="viz-heading">Results Visualization</h2><p>See how the run unfolded and where the selected evaluation reported failures.</p></div>
+    </div>
+    <div class="section-body">
+      <div class="viz-source">
+        <p id="viz-source" aria-live="polite"></p>
+        <button type="button" id="viz-source-switch" hidden>View the selected trajectory (without findings)</button>
+      </div>
+      <p id="viz-status" class="help" role="status" aria-live="polite">Select a trajectory in “Set up &amp; run” or one of the saved evaluations in the header to view the run.</p>
+      <div id="viz-content" hidden>
+        <section class="run-summary" aria-label="Run summary">
+          <div class="run-summary-head">
+            <span id="run-pattern"></span>
+            <details id="run-notes"><summary>ⓘ How to read this view</summary><ul id="run-notes-list"></ul></details>
+          </div>
+          <dl id="run-facts"></dl>
+        </section>
+
+        <div class="review-grid">
+        <div class="review-main">
+        <section id="eval-visualization" hidden aria-labelledby="eval-overview-heading">
+          <details id="eval-overview" open>
+          <summary><span id="eval-overview-heading">Findings of the selected evaluation</span><span id="eval-overview-count"></span></summary>
+          <p id="eval-visual-settings"></p>
+          <p id="eval-overlay-note"></p>
+          <div class="failure-metrics">
+            <div><strong id="eval-failure-count"></strong><span>Detected failures</span></div>
+            <div><strong id="eval-affected-count"></strong><span id="eval-affected-label">Affected trajectory steps</span></div>
+            <div><strong id="eval-ambiguous-count"></strong><span>Ambiguous findings</span></div>
+          </div>
+          <p id="eval-visual-note" class="help"></p>
+          <div class="overview-grid">
+            <div>
+              <h3 id="eval-breakdown-title">Failures by category</h3>
+              <p class="help" id="eval-breakdown-help" style="margin:0 0 4px">Select a row to highlight its steps in the timeline.</p>
+              <a class="help-link" id="eval-taxonomy-link" href="#help-taxonomy" data-help="help-taxonomy" hidden>ⓘ Browse the full taxonomy</a>
+              <div id="eval-category-chart"></div>
+            </div>
+            <div id="eval-recurring-section" hidden>
+              <h3>Recurring across steps</h3>
+              <p class="help" style="margin:0 0 8px">The same failure type was reported at several steps. This can indicate one issue propagating; the evaluation does not establish causation.</p>
+              <div id="eval-recurring"></div>
+            </div>
+          </div>
+          </details>
+          <div id="viz-highlight" hidden><span id="viz-highlight-label"></span><button type="button" id="viz-highlight-clear">Clear highlight</button></div>
+        </section>
+
+        <section id="run-structure" class="viz-block" hidden aria-labelledby="run-structure-heading">
+          <h3 id="run-structure-heading">Workflow structure</h3>
+          <p id="run-structure-help" class="help" style="margin:0 0 8px"></p>
+          <div id="structure-diagram"></div>
+        </section>
+
+        <section class="viz-block" aria-labelledby="run-timeline-heading">
+          <div class="viz-block-head">
+            <div><h3 id="run-timeline-heading">Run timeline</h3><p id="run-scale-note" class="help"></p></div>
+            <div class="segmented" role="group" aria-label="Lane width">
+              <button type="button" data-viz-scale="equal" aria-pressed="true">Equal width</button>
+              <button type="button" data-viz-scale="duration" aria-pressed="false">By duration</button>
+            </div>
+          </div>
+          <div id="run-timeline" data-scale="equal" aria-label="Agent invocations and their steps"></div>
+          <div class="viz-legend" aria-hidden="true">
+            <span><span class="step-marker" data-kind="input"><span class="shape"></span></span>Input</span>
+            <span><span class="step-marker" data-kind="model"><span class="shape"></span></span>Model call</span>
+            <span><span class="step-marker" data-kind="tool"><span class="shape"></span></span>Tool activity (nested request/result smaller)</span>
+            <span><span class="step-marker" data-kind="reflection"><span class="shape"></span></span>Tool reflection</span>
+            <span><span class="step-marker" data-kind="output"><span class="shape"></span></span>Output</span>
+            <span><span class="step-marker" data-kind="telemetry"><span class="shape"></span></span>Telemetry</span>
+            <span><span class="step-marker" data-kind="model" data-flagged="true"><span class="shape"></span></span>Reported failure</span>
+          </div>
+          <div id="viz-unmatched"></div>
+        </section>
+
+        </div>
+        <aside class="review-detail" aria-label="Details">
+          <section id="run-detail" aria-live="polite" aria-label="Selected invocation or step"></section>
+        </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="review-empty" class="card empty-state" hidden>
+    <h2>Nothing to review yet</h2>
+    <p>Select a trajectory and run an evaluation, or choose one under “Saved evaluations” in the header.</p>
+    <button type="button" data-view="setup">Go to Set up &amp; run</button>
+  </section>
+  </section>
+</main>
+<div id="help-backdrop" hidden></div>
+<aside id="help-drawer" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden>
+  <div class="drawer-head">
+    <h2 id="help-title">Help</h2>
+    <button type="button" id="help-close" aria-label="Close help">✕</button>
+  </div>
+  <div class="drawer-body" id="help-body">
+    <section id="help-taxonomy" aria-labelledby="help-taxonomy-heading">
+      <h3 id="help-taxonomy-heading">Failure taxonomy</h3>
+      <p class="help" id="help-taxonomy-intro"></p>
+      <div id="help-taxonomy-tree"></div>
+    </section>
+    <section id="help-methods" aria-labelledby="help-methods-heading">
+      <h3 id="help-methods-heading">Failure detection methods</h3>
+      <dl class="strategy-notes" id="strategy-explanation">
+              <dt>Zero-shot · without supplied failure knowledge</dt>
+              <dd>One judge call reviews the trajectory without a failure taxonomy in the prompt. Findings use free-text failure labels, providing a baseline for comparison.</dd>
+              <dt>Taxonomy-guided · with expert failure knowledge</dt>
+              <dd>One specialist judge call per top-level taxonomy category, run concurrently: 7 for RAMS or 3 for MAST. Findings use taxonomy codes and are merged by trajectory step.</dd>
+            </dl>
+    </section>
+          <section class="data-model-guide" id="help-data-model" aria-labelledby="data-model-heading">
+            <h3 id="data-model-heading">Understanding the trajectory data model</h3>
+            <p>A trajectory records a workflow’s execution: its overall context, the agents involved, and their model calls, tool interactions, and outputs.</p>
+            <p>The Trace Data Model provides a consistent structure for recording agent activity across different workflow architectures, so trajectories can be interpreted and evaluated in the same way. Each execution produces a standardized <code>agentic_trajectory.json</code> conforming to Trace Data Model v2.0.0, which provides direct input to the failure evaluation pipeline.</p>
+            <details>
+              <summary>Workflow level</summary>
+              <dl>
+                <dt><code>trace_metadata</code></dt>
+                <dd>Describes the whole run: schema version, framework, scenario, architecture, timing, token usage, execution order, and overall status.</dd>
+                <dt><code>agents</code></dt>
+                <dd>Contains the recorded agent executions. An agent can appear more than once when it is invoked repeatedly or a workflow loops.</dd>
+              </dl>
+            </details>
+            <details>
+              <summary>Agent level</summary>
+              <dl>
+                <dt><code>agent_metadata</code></dt>
+                <dd>Identifies the agent and records its system prompt, timing, model and tool call counts, token usage, and status.</dd>
+                <dt><code>task</code> / <code>query</code></dt>
+                <dd>The agent’s input: <code>task.user_prompt</code> in sequential, shared-context, and looping workflows, or <code>query.recent_query</code> in hierarchical invocations.</dd>
+                <dt><code>llm_request_&lt;i&gt;</code></dt>
+                <dd>A model call, including the model, timing, token usage, and how the call finished. Numbered blocks repeat as calls occur.</dd>
+                <dt><code>tool_execution_activity_&lt;i&gt;</code></dt>
+                <dd>A tool interaction, grouping the request, result, timing, and any nested reflection.</dd>
+                <dt><code>tool_llm_request</code> / <code>tool_llm_request_&lt;i&gt;</code></dt>
+                <dd>A model call that reflects on tool results. It can be nested inside a tool activity or recorded at agent level with links to the activities it reflects on.</dd>
+                <dt><code>result</code></dt>
+                <dd>The agent’s output, its step ID, and output token count.</dd>
+                <dt><code>OTel_traces</code></dt>
+                <dd>The captured OpenTelemetry spans containing lower-level execution details.</dd>
+              </dl>
+              <p>Model-call, tool-activity, and reflection blocks appear when those interactions are recorded.</p>
+            </details>
+            <details>
+              <summary>Tool activity</summary>
+              <dl>
+                <dt><code>tool_calling</code></dt>
+                <dd>Which tool was requested, its arguments, call ID, and execution status.</dd>
+                <dt><code>tool_call_result</code></dt>
+                <dd>The returned output, parsed result, errors, and timing. The call ID links the result to its request.</dd>
+                <dt><code>tool_llm_request</code> (optional)</dt>
+                <dd>For a single tool interaction followed by model reflection, the reflection is nested here. Reflection on a batch or chain of tool activities is recorded at agent level using <code>reflects_on_activities</code>.</dd>
+              </dl>
+            </details>
+            <details>
+              <summary>Execution order and step IDs</summary>
+              <p><code>step_id</code> identifies a recorded step. Top-level step IDs advance across the workflow, continuing across agents and loop attempts. They are strings, not decimal numbers.</p>
+              <p>Dotted IDs identify parts within a tool activity: for activity <code>3</code>, <code>3.1</code> is the tool request, <code>3.2</code> is its result, and <code>3.3</code> is the nested reflection when present.</p>
+              <p>The number in a block name such as <code>llm_request_1</code> identifies a repeated block; its <code>step_id</code> places it in the workflow’s execution order.</p>
+            </details>
+            <details>
+              <summary>Agentic workflow patterns</summary>
+              <p>These workflow patterns describe how agents collaborate and how work progresses. Each produces a trajectory described by the same data model.</p>
+              <table>
+                <thead><tr><th scope="col">Pattern</th><th scope="col">How agents work together</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Sequential</th><td>The output of one agent seeds the next agent’s input.</td></tr>
+                  <tr><th scope="row">Shared context</th><td>Agents work with one shared conversation history, including earlier agents’ turns and tool interactions.</td></tr>
+                  <tr><th scope="row">Looping</th><td>The workflow repeats through quality assurance (QA) attempts. The trajectory retains the repeated executions.</td></tr>
+                  <tr><th scope="row">Hierarchical</th><td>A supervisor delegates tasks to a team and coordinates agent invocations.</td></tr>
+                </tbody>
+              </table>
+              <p>Workflows with a shared session are recorded with <code>system_architecture</code> set to <code>shared_context</code>. Older exports may use <code>sequential</code> for the same pattern.</p>
+              <h4>How these workflows appear in the trajectory</h4>
+              <dl>
+                <dt>Sequential, shared session, and looping workflows</dt>
+                <dd>Each entry in <code>agents</code> contains an agent trace directly. Looping workflows keep the repeated attempts as separate entries.</dd>
+                <dt>Hierarchical workflows</dt>
+                <dd><code>team_configuration</code> describes the team and its invocations; <code>workflow_summary</code> describes the orchestrator’s task, execution order, and aggregate usage. Agent invocations in <code>agents</code> are wrapped with <code>sequence</code>, <code>agent_name</code>, <code>invocation_info</code>, and an <code>execution</code> containing the agent trace.
+                  <p><strong>Note — Hierarchical initialization:</strong> Sequence <code>0</code> contains orchestrator setup and team composition. Its <code>execution</code> has an initialization structure rather than an agent trace.</p>
+                </dd>
+              </dl>
+              <p>This guide describes schema 2.0.0. Earlier trajectories without a <code>schema_version</code> use some different field names.</p>
+            </details>
+          </section>
+  </div>
+</aside>
+<script src="/evaluation_v4.js"></script>
+</body>
+</html>

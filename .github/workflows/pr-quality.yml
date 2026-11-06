@@ -2,7 +2,7 @@ name: PR Quality Check
 
 # PR 质量门禁：结构检查 + L0/L1 校验 + catalog 一致性 + 密钥扫描 + 单元测试。
 # 本地等价命令：python scripts/pr_check.py
-# L2 热加载需要 openjiuwen 运行环境，见下方 hot-load 作业（按仓库变量开关）。
+# 可观测与评估插件有独立的运行时和宿主作业；全仓 L2 hot-load 仍按仓库变量开关。
 
 on:
   pull_request:
@@ -28,6 +28,63 @@ jobs:
 
       - name: PR quality check
         run: python scripts/pr_check.py
+
+  observability-evaluation:
+    name: Observability and Evaluation (runtime + standalone)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install plugin core and build/test dependencies
+        run: |
+          python -m pip install uv
+          uv pip install --system pytest build 'hatchling>=1.27,<2' \
+            -r plugins/observability-and-evaluation/requirements.txt
+          uv pip check --system
+
+      - name: Runtime, read-only ZIP, and standalone installation tests
+        run: >-
+          python -m pytest tests/plugins/observability-and-evaluation
+          --require-ojw-runtime -ra
+
+      - name: Build standalone wheel and source archive
+        run: python -m build --outdir dist/standalone packaging/observability-and-evaluation
+
+  observability-evaluation-host:
+    name: Observability and Evaluation (JiuwenSwarm host)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install tested host dependencies
+        run: |
+          python -m pip install uv
+          uv pip install --system 'workswarm==0.2.7' \
+            -r plugins/observability-and-evaluation/requirements.txt
+          uv pip check --system
+
+      - name: Validate, build, and exercise the extracted plugin
+        run: |
+          python scripts/validate.py --only observability-and-evaluation --require-hot-load
+          python packaging/observability-and-evaluation/build_plugin.py --zip
+          python -m zipfile -e dist/observability-and-evaluation-*.zip dist/extracted
+          python -I -B tests/plugins/observability-and-evaluation/packaged_smoke.py \
+            dist/extracted/observability-and-evaluation "$RUNNER_TEMP/ojw-smoke" \
+            --host-envelope --interaction --move-workspace
 
   hot-load:
     # L2 热加载（真实 import openjiuwen 并实例化 tool/rail）。

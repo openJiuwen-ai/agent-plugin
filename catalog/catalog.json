@@ -41,6 +41,44 @@
       "path": "plugins/example-plugin"
     },
     {
+      "id": "observability-and-evaluation",
+      "version": "1.4.1",
+      "display_name": {
+        "en": "Observability and Evaluation",
+        "zh": "可观测性与评估"
+      },
+      "display_description": {
+        "en": "Keep a combined trajectory for each dialogue and open its evaluation UI on request; analysis starts only with Run Evaluation.",
+        "zh": "按对话保存并合并执行轨迹，按需打开持久化本地评估界面，选择模型与参数后手动启动分析。"
+      },
+      "category": "Engineering",
+      "tags": [
+        {
+          "en": "Observability",
+          "zh": "可观测性"
+        },
+        {
+          "en": "Evaluation",
+          "zh": "评估"
+        },
+        {
+          "en": "Local UI",
+          "zh": "本地界面"
+        }
+      ],
+      "capabilities": {
+        "skills": [],
+        "tools": [
+          "OpenDialogueEvaluationTool"
+        ],
+        "rails": [
+          "ObservabilityRail",
+          "EvaluationRail"
+        ]
+      },
+      "path": "plugins/observability-and-evaluation"
+    },
+    {
       "id": "web-to-markdown",
       "version": "1.0.0",
       "display_name": {
