@@ -1,0 +1,28 @@
+1. System Design
+Failures rooted in system specification and agent/role design.
+
+1.1. Disobey Task Specification: Failure to adhere to the specified constraints or requirements of a given task, leading to suboptimal or incorrect outcomes.
+1.2. Disobey Role Specification: Failure to adhere to the defined responsibilities and constraints of an assigned role, potentially leading to an agent behaving like another.
+1.3. Step Repetition: Unnecessary reiteration of previously completed steps in a process, potentially causing delays or errors in task completion.
+1.4. Loss of Conversation History: Unexpected context truncation, disregarding recent interaction history and reverting to an antecedent conversational state.
+1.5. Unaware of Termination Conditions: Lack of recognition or understanding of the criteria that should trigger the termination of the agents' interaction, potentially leading to unnecessary continuation.
+
+
+
+2. Agent Coordination
+Failures in inter-agent alignment, communication, and collaboration.
+
+2.1. Conversation Reset: Unexpected or unwarranted restarting of a dialogue, potentially losing context and progress made in the interaction.
+2.2. Fail to Ask for Clarification: Inability to request additional information when faced with unclear or incomplete data, potentially resulting in incorrect actions.
+2.3. Task Derailment: Deviation from the intended objective or focus of a given task, potentially resulting in irrelevant or unproductive actions.
+2.4. Information Withholding: Failure to share or communicate important data or insights that an agent possesses and could impact decision-making of other agents if shared.
+2.5. Ignored Other Agent's Input: Disregarding or failing to adequately consider input or recommendations provided by other agents in the system, potentially leading to suboptimal decisions or missed opportunities for collaboration.
+2.6. Reasoning-Action Mismatch: Discrepancy between the logical reasoning process and the actual actions taken by the agent, potentially resulting in unexpected or undesired behaviors.
+
+
+3. Task Verification
+Failures in checking, confirming, and validating task outcomes.
+
+3.1. Premature Termination: Ending a dialogue, interaction or task before all necessary information has been exchanged or objectives have been met, potentially resulting in incomplete or incorrect outcomes.
+3.2. No or Incomplete Verification: (Partial) omission of proper checking or confirmation of task outcomes or system outputs, potentially allowing errors or inconsistencies to propagate undetected.
+3.3. Incorrect Verification: Failure to adequately validate or cross-check crucial information or decisions during the iterations, potentially leading to errors or vulnerabilities in the system.
